@@ -34,30 +34,38 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <?php
-     
     require 'database.php';
  
+    $id = null;
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( null==$id ) {
+        header("Location: projectInfo.php");
+    }
+     
     if ( !empty($_POST)) {
         // keep track validation errors
         $PIDError = null;
         $PNameError = null;
         $StatusError = null;
-        $ResponseError = null;
+		$ResponseError = null;
 		$RemarkError = null;
 		$TotFinacialError = null;
 		$PDateError = null;
-		
+         
         // keep track post values
         $PID = $_POST['PID'];
         $PName = $_POST['PName'];
         $Status = $_POST['Status'];
-        $Response = $_POST['Response'];
+		$Response = $_POST['Response'];
 		$Remark = $_POST['Remark'];
 		$TotFinacial = $_POST['TotFinacial'];
 		$PDate = $_POST['PDate'];
-		
+         
         // validate input
-        $valid = true;
+         $valid = true;
         if (empty($PID)) {
             $PIDError = 'Enter Project ID';
             $valid = false;
@@ -66,7 +74,9 @@
         if (empty($PName)) {
             $PNameError = 'Enter Project Name';
             $valid = false;
-        } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
+        }
+		
+		if ( empty($Status)) {
             $StatusError = 'Enter Project Status';
             $valid = false;
         }
@@ -87,19 +97,35 @@
             $PDateError = 'Enter Project Date';
             $valid = false;
         }
-		
-        // insert data
+         
+        // update data
         if ($valid) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO projects (PID,PName,Status,Response,Remark,TotFinacial, PDate) values(?, ?, ?, ?, ?, ?, ?)";
+            $sql = "UPDATE projects  set PID = ?, PName = ?, Status =?, Response =?, Remark =?, TotFinacial =?, PDate =? WHERE id = ?";
             $q = $pdo->prepare($sql);
             $q->execute(array($PID,$PName,$Status,$Response,$Remark,$TotFinacial,$PDate));
             Database::disconnect();
             header("Location: projectInfo.php");
         }
+    } else {
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM projects where id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $PID = $data['PID'];
+        $PName = $data['PName'];
+        $Status = $data['Status'];
+		$Response = $data['Response'];
+		$Remark = $data['Remark'];
+		$TotFinacial = $data['TotFinacial'];
+		$PDate = $data['PDate'];
+        Database::disconnect();
     }
 ?>
+
 
 </head>
 
@@ -272,7 +298,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Create Projects
+                                <i class="fa fa-dashboard"></i> Update Projects
                             </li>
                         </ol>
                     </div>
@@ -288,11 +314,12 @@
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Projects</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                        <h3>Create a Project</h3>
-                    </div>
+                            <div class="container">
+     
+                <div class="span10 offset1">
+                
              
-                    <form class="form-horizontal" action="create.php" method="post">
+                    <form class="form-horizontal" action="update.php?id=<?php echo $id?>" method="post">
                       <div class="control-group <?php echo !empty($PIDError)?'error':'';?>">
                         <label class="control-label">Project ID</label>
                         <div class="controls">
@@ -329,7 +356,7 @@
                             <?php endif;?>
                         </div>
                       </div>
-                       <div class="control-group <?php echo !empty($RemarkError)?'error':'';?>">
+                      <div class="control-group <?php echo !empty($RemarkError)?'error':'';?>">
                         <label class="control-label">Project Remarks</label>
                         <div class="controls">
                             <input name="Remark" type="text"  placeholder="Project Remarks" value="<?php echo !empty($Remark)?$Remark:'';?>">
@@ -339,9 +366,9 @@
                         </div>
                       </div>
                       <div class="control-group <?php echo !empty($TotFinacialError)?'error':'';?>">
-                        <label class="control-label">Project Total finacial</label>
+                        <label class="control-label">Total Finacial</label>
                         <div class="controls">
-                            <input name="TotFinacial" type="text"  placeholder="Project Total Finacial" value="<?php echo !empty($TotFinacial)?$TotFinacial:'';?>">
+                            <input name="TotFinacial" type="text"  placeholder="Total Finacial" value="<?php echo !empty($TotFinacial)?$TotFinacial:'';?>">
                             <?php if (!empty($TotFinacialError)): ?>
                                 <span class="help-inline"><?php echo $TotFinacialError;?></span>
                             <?php endif;?>
@@ -357,14 +384,20 @@
                         </div>
                       </div>
                       <div class="form-actions">
-                          <button type="submit" class="btn btn-success">Create</button>
+                          <button type="submit" class="btn btn-success">Update</button>
                           <a class="btn" href="projectInfo.php">Back</a>
                         </div>
                     </form>
+                </div>
+                 
+    </div> <!-- /container -->
 
-                            </div>
-                        </div>
-                    </div>
+             
+                    
+
+                            </div> <!----/.body--->
+                        </div> 
+                    </div><!----/.col--->
                 </div>
                 <!-- /.row -->
 

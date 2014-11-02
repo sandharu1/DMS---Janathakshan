@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +21,8 @@
 	<!--- admin CSS--->
     <link href="css/admin.css" rel="stylesheet">
 
+    <!-- Morris Charts CSS 
+    <link href="css/plugins/morris.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -30,74 +34,30 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <?php
-     
     require 'database.php';
- 
+    $id = 0;
+     
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
     if ( !empty($_POST)) {
-        // keep track validation errors
-        $PIDError = null;
-        $PNameError = null;
-        $StatusError = null;
-        $ResponseError = null;
-		$RemarkError = null;
-		$TotFinacialError = null;
-		$PDateError = null;
-		
         // keep track post values
-        $PID = $_POST['PID'];
-        $PName = $_POST['PName'];
-        $Status = $_POST['Status'];
-        $Response = $_POST['Response'];
-		$Remark = $_POST['Remark'];
-		$TotFinacial = $_POST['TotFinacial'];
-		$PDate = $_POST['PDate'];
-		
-        // validate input
-        $valid = true;
-        if (empty($PID)) {
-            $PIDError = 'Enter Project ID';
-            $valid = false;
-        }
+        $id = $_POST['id'];
          
-        if (empty($PName)) {
-            $PNameError = 'Enter Project Name';
-            $valid = false;
-        }
-		
-		if ( empty($Status)) {
-            $StatusError = 'Enter Project Status';
-            $valid = false;
-        }
+        // delete data
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM projects WHERE id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        Database::disconnect();
+        header("Location: projectInfo.php");
          
-        if (empty($Response)) {
-            $ResponseError = 'Enter Project Responsor';
-            $valid = false;
-        }
-		 if (empty($Remark)) {
-            $RemarkError = 'Enter Project Responsor';
-            $valid = false;
-        }
-        if (empty($TotFinacial)) {
-            $TotFinacialError = 'Enter P. Total Finacial Amount';
-            $valid = false;
-        }
-		if (empty($PDate)) {
-            $PDateError = 'Enter Project Date';
-            $valid = false;
-        }
-		
-        // insert data
-        if ($valid) {
-            $pdo = Database::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO projects (PID,PName,Status,Response,Remark,TotFinacial, PDate) values(?, ?, ?, ?, ?, ?, ?)";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($PID,$PName,$Status,$Response,$Remark,$TotFinacial,$PDate));
-            Database::disconnect();
-            header("Location: projectInfo.php");
-        }
     }
 ?>
+
+
 
 </head>
 
@@ -270,7 +230,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Create Projects
+                                <i class="fa fa-dashboard"></i> Delete Projects
                             </li>
                         </ol>
                     </div>
@@ -283,86 +243,33 @@
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Projects</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Delete a Project</h3>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
-                        <h3>Create a Project</h3>
-                    </div>
-             
-                    <form class="form-horizontal" action="create.php" method="post">
-                      <div class="control-group <?php echo !empty($PIDError)?'error':'';?>">
-                        <label class="control-label">Project ID</label>
-                        <div class="controls">
-                            <input name="PID" type="text"  placeholder="Project ID" value="<?php echo !empty($PID)?$PID:'';?>">
-                            <?php if (!empty($PIDError)): ?>
-                                <span class="help-inline"><?php echo $PIDError;?></span>
-                            <?php endif; ?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($PNameError)?'error':'';?>">
-                        <label class="control-label">Project Name</label>
-                        <div class="controls">
-                            <input name="PName" type="text" placeholder="Project Name" value="<?php echo !empty($PName)?$PName:'';?>">
-                            <?php if (!empty($PNameError)): ?>
-                                <span class="help-inline"><?php echo $PNameError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($StatusError)?'error':'';?>">
-                        <label class="control-label">Project Status</label>
-                        <div class="controls">
-                            <input name="Status" type="text"  placeholder="Project Status" value="<?php echo !empty($Status)?$Status:'';?>">
-                            <?php if (!empty($StatusError)): ?>
-                                <span class="help-inline"><?php echo $StatusError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($ResponseError)?'error':'';?>">
-                        <label class="control-label">Project Responsor</label>
-                        <div class="controls">
-                            <input name="Response" type="text"  placeholder="Project Responsor" value="<?php echo !empty($Response)?$Response:'';?>">
-                            <?php if (!empty($ResponseError)): ?>
-                                <span class="help-inline"><?php echo $ResponseError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                       <div class="control-group <?php echo !empty($RemarkError)?'error':'';?>">
-                        <label class="control-label">Project Remarks</label>
-                        <div class="controls">
-                            <input name="Remark" type="text"  placeholder="Project Remarks" value="<?php echo !empty($Remark)?$Remark:'';?>">
-                            <?php if (!empty($RemarkError)): ?>
-                                <span class="help-inline"><?php echo $RemarkError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($TotFinacialError)?'error':'';?>">
-                        <label class="control-label">Project Total finacial</label>
-                        <div class="controls">
-                            <input name="TotFinacial" type="text"  placeholder="Project Total Finacial" value="<?php echo !empty($TotFinacial)?$TotFinacial:'';?>">
-                            <?php if (!empty($TotFinacialError)): ?>
-                                <span class="help-inline"><?php echo $TotFinacialError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($PDateError)?'error':'';?>">
-                        <label class="control-label">Project Date</label>
-                        <div class="controls">
-                            <input name="PDate" type="text"  placeholder="Project Date" value="<?php echo !empty($PDate)?$PDate:'';?>">
-                            <?php if (!empty($PDateError)): ?>
-                                <span class="help-inline"><?php echo $PDateError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
+                           <div class="container">
+     
+                <div class="span10 offset1">
+                    
+                     
+                    <form class="form-horizontal" action="delete.php" method="post">
+                      <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                      <p class="alert alert-error">Are you sure to delete ?</p>
                       <div class="form-actions">
-                          <button type="submit" class="btn btn-success">Create</button>
-                          <a class="btn" href="projectInfo.php">Back</a>
+                          <button type="submit" class="btn btn-danger">Yes</button>
+                          <a class="btn" href="projectInfo.php">No</a>
                         </div>
                     </form>
+                </div>
+                 
+    </div> <!-- /container -->
 
-                            </div>
-                        </div>
-                    </div>
+
+             
+                    
+
+                            </div> <!----/.body--->
+                        </div> 
+                    </div><!----/.col--->
                 </div>
                 <!-- /.row -->
 

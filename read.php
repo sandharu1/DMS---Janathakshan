@@ -365,7 +365,7 @@
                         <label class="control-label">Donor Remarks: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['DRemarks'];?>
+                                <?php echo $data['DRemark'];?>
                             </label>
                         </div>
                       </div>
@@ -446,7 +446,7 @@
                             echo '<td>'. $row['TraID'] . '</td>';
                             echo '<td>'. $row['TraDate'] . '</td>';
                             echo '<td>'. $row['DueDate'] . '</td>';
-							echo '<td>'. $row['FSRemarks'] . '</td>';
+							echo '<td>'. $row['FSRemark'] . '</td>';
                             echo '</tr>';
                    }
                    Database::disconnect();
@@ -517,7 +517,7 @@
                             echo '<td>'. $row['Status'] . '</td>';
                             echo '<td>'. $row['StartDate'] . '</td>';
                             echo '<td>'. $row['DueDate'] . '</td>';
-                            echo '<td>'. $row['PSRemarks'] . '</td>';
+                            echo '<td>'. $row['PSRemark'] . '</td>';
                             echo '</tr>';
                    }
                    Database::disconnect();
