@@ -31,6 +31,29 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<?php
+    require 'database.php';
+    $id = null;
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( null==$id ) {
+        header("Location: PinfoFinacial.php");
+    } else {
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM Projects where id = ?";
+		$sql = "SELECT * FROM Donor where id = ?"; 
+		$sql = "SELECT * FROM Contract where id = ?";
+		$sql = "SELECT * FROM StagesFin where id = ?";
+		$sql = "SELECT * FROM Finacial where id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        Database::disconnect();
+    }
+?>
 
 </head>
 
@@ -133,7 +156,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -154,7 +177,7 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li>
                         <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
@@ -178,7 +201,7 @@
                             <li>
                                 <a href="#">Program</a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
@@ -199,11 +222,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
+                            Finacial <small>Full info</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
+                                <i class="fa fa-dashboard"></i> Finacial catogory
                             </li>
                         </ol>
                     </div>
@@ -212,133 +235,120 @@
 
                 
 
+               
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">6</div>
-                                        <div>New proposals!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>Completed</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
-                                        <div>Noties</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Ongoing Projects</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Projects Info.</h3>
                             </div>
                             <div class="panel-body">
-                                 <table class="table table-striped table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Project ID</th>
-                      <th>Project Name</th>
-                      <th>Donor</th>
-                      <th>Status</th>
-                      <th>remark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-                   include 'database.php';
-                   $pdo = Database::connect();
-                   $sql = 'SELECT * FROM project ORDER BY id DESC';
-                   foreach ($pdo->query($sql) as $row) {
-                            echo '<tr>';
-                            echo '<td>'. $row['PID'] . '</td>';
-                            echo '<td>'. $row['PName'] . '</td>';
-                            echo '<td>'. $row['DName'] . '</td>';
-                            echo '<td>'. $row['PState'] . '</td>';
-                            echo '<td>'. $row['Discription'] . '</td>';
-                            echo '</tr>';
-                   }
-                   Database::disconnect();
-                  ?>
-                  </tbody>
-            </table>
+                                 <div class="container">
+     
+                <div class="span10 offset1">
+                 
+                      <div class="form-horizontal" >
+                      <div class="control-group">
+                        <label class="control-label">Project ID: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['PID'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Project Name: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['PName'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Donor ID: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['DID'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Project Status: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['Status'];?>
+                            </label>
+                        </div>
+                      </div>
+                     
+                     
+                        <div class="form-actions">
+                          <a class="btn" href="PinfoFinacial.php">Back</a>
+                       </div>
+                     
+                      
+                    </div>
+                </div>
+                 
+    </div> <!-- /container -->
+    
+                            </div>
+                        </div>
+                    </div> <!-----/.col--->
+                    
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Contract & Finacial Info.</h3>
+                            </div>
+                            <div class="panel-body">
+                                 <div class="container">
+     
+                <div class="span10 offset1">
+                                         
+                    <div class="form-horizontal" >
+                      <div class="control-group">
+                        <label class="control-label">Contract ID: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['ConID'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Finacial ID: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['FinID'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Total Finance: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['TotFinacial'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Remarks: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['Remarks'];?>
+                            </label>
+                        </div>
+                      </div>
+                        <div class="form-actions">
+                          <a class="btn" href="PinfoFinacial.php">Back</a>
+                       </div>
+                     
+                      
+                    </div>
+                </div>
+                 
+    </div> <!-- /container -->
+    
                             </div>
                         </div>
                     </div>
@@ -346,8 +356,57 @@
                 <!-- /.row -->
 
           		<div class="row">
+                <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Finacial Info.</h3>
+                            </div>
+                            <div class="panel-body">
+                      <p>
+                    <a href="createFinacial.php" class="btn btn-success">Create</a>
+                </p>
+                            <table class="table table-striped table-bordered">
+                              <thead>
+                    <tr>
+                      <th>Fin. Stage</th>
+                      <th>Stage Status</th>
+                      <th>Transaction ID</th>
+                      <th>Transaction Date</th>
+                      <th>Due Date</th>
+                      <th>Remarks</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                   include 'database.php';
+                   $pdo = Database::connect();
+                   $sql = 'SELECT * FROM FinStages ORDER BY id DESC';
+                   foreach ($pdo->query($sql) as $row) {
+                            echo '<tr>';
+                            echo '<td>'. $row['FStage'] . '</td>';
+                            echo '<td>'. $row['FSStatus'] . '</td>';
+                            echo '<td>'. $row['TraID'] . '</td>';
+                            echo '<td>'. $row['TraDate'] . '</td>';
+                            echo '<td>'. $row['TraDueDate'] . '</td>';
+							echo '<td>'. $row['FSRemark'] . '</td>';
+							echo '<td width=250>';
+                            echo '<a class="btn btn-success" href="updateFinacial.php?id='.$row['id'].'">Update</a>';
+                            echo ' ';
+                            echo '<a class="btn btn-danger" href="deleteFinacial.php?id='.$row['id'].'">Delete</a>';
+                            echo '</td>';
+                            echo '</tr>';
+                   }
+                   Database::disconnect();
+                  ?>
+                  </tbody>
+            </table>
+                            </div><!----/.body--->
+                         </div><!----/.panel----->
+                </div><!--------/.col--->
                 </div><!----/.row--->
 
+				
             </div>
             <!-- /.container-fluid -->
 

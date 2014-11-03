@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Janathakshan - DMS</title>
+    <title>ProjectInfo(finacial) - Janathakshan - DMS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -133,7 +133,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -154,11 +154,11 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
-                        <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
+                    <li>
+                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="projectInfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
@@ -178,8 +178,8 @@
                             <li>
                                 <a href="#">Program</a>
                             </li>
-                            <li>
-                                <a href="PinfoFinacial.php">Finacial</a>
+                            <li class="active">
+                                <a href="#">Finacial</a>
                             </li>
                         </ul>
                     </li>
@@ -199,11 +199,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
+                            Projects <small>Statistics Overview</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
+                                <i class="fa fa-dashboard"></i> Projects
                             </li>
                         </ol>
                     </div>
@@ -213,140 +213,55 @@
                 
 
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">6</div>
-                                        <div>New proposals!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>Completed</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
-                                        <div>Noties</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Ongoing Projects</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Projects</h3>
                             </div>
                             <div class="panel-body">
-                                 <table class="table table-striped table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Project ID</th>
-                      <th>Project Name</th>
-                      <th>Donor</th>
-                      <th>Status</th>
-                      <th>remark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-                   include 'database.php';
-                   $pdo = Database::connect();
-                   $sql = 'SELECT * FROM project ORDER BY id DESC';
-                   foreach ($pdo->query($sql) as $row) {
-                            echo '<tr>';
-                            echo '<td>'. $row['PID'] . '</td>';
-                            echo '<td>'. $row['PName'] . '</td>';
-                            echo '<td>'. $row['DName'] . '</td>';
-                            echo '<td>'. $row['PState'] . '</td>';
-                            echo '<td>'. $row['Discription'] . '</td>';
-                            echo '</tr>';
-                   }
-                   Database::disconnect();
-                  ?>
-                  </tbody>
-            </table>
+                                 
+                <table class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Project ID</th>
+                          <th>Donor ID</th>
+                          <th>Project Name</th>
+                      	  <th>Contract ID</th>
+                          <th>Finacial ID</th>
+                          <th>Remark</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      <?php
+                       include 'database.php';
+                       $pdo = Database::connect();
+                       $sql = 'SELECT * FROM projects, donor, contract ORDER BY id DESC';
+                       foreach ($pdo->query($sql) as $row) {
+                                echo '<tr>';
+                                echo '<td>'. $row['PID'] . '</td>';
+                                echo '<td>'. $row['DID'] . '</td>';
+                                echo '<td>'. $row['PName'] . '</td>';
+								echo '<td>'. $row['ConID'] . '</td>';
+								echo '<td>'. $row['FinID'] . '</td>';
+								echo '<td>'. $row['Remark'] . '</td>'; 
+								echo '<td width=50>';
+                                echo '<a class="btn" href="readFin.php?id='.$row['id'].'">Read</a>';
+                                echo '</td>';
+
+                                echo '</tr>';
+                       }
+                       Database::disconnect();
+                      ?>
+                      </tbody>
+                </table>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /.row -->
 
-          		<div class="row">
-                </div><!----/.row--->
+          		
 
             </div>
             <!-- /.container-fluid -->

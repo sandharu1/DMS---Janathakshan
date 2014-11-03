@@ -155,10 +155,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
+                        <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li class="active">
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectInfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
@@ -179,7 +179,7 @@
                                 <a href="#">Program</a>
                             </li>
                             <li>
-                                <a href="#">Finacial</a>
+                                <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
                     </li>

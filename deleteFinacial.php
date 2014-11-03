@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Janathakshan - DMS</title>
+    <title>CreateProject - Janathakshan - DMS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,9 +18,6 @@
     <link href="css/default.css" rel="stylesheet">
 	<!--- admin CSS--->
     <link href="css/admin.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS 
-    <link href="css/plugins/morris.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -31,6 +28,31 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<?php
+    require 'database.php';
+    $id = 0;
+     
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( !empty($_POST)) {
+        // keep track post values
+        $id = $_POST['id'];
+         
+        // delete data
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM FinStages WHERE id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        Database::disconnect();
+        header("Location: ReadFin.php");
+         
+    }
+?>
+
+
 
 </head>
 
@@ -133,7 +155,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -154,11 +176,11 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
+                    <li>
+                        <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectInfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
@@ -178,8 +200,8 @@
                             <li>
                                 <a href="#">Program</a>
                             </li>
-                            <li>
-                                <a href="#">Finacial</a>
+                            <li class="active">
+                                <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
                     </li>
@@ -199,11 +221,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Dashboard <small>Statistics Overview</small>
+                            Finacial <small>Statistics Overview</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Dashboard
+                                <i class="fa fa-dashboard"></i> Delete Finacial Stage
                             </li>
                         </ol>
                     </div>
@@ -213,140 +235,40 @@
                 
 
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-comments fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">6</div>
-                                        <div>New proposals!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-green">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>Completed</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-support fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
-                                        <div>Noties</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-
-                <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Ongoing Projects</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Delete a Stage</h3>
                             </div>
                             <div class="panel-body">
-                                 <table class="table table-striped table-bordered">
-                  <thead>
-                    <tr>
-                      <th>Project ID</th>
-                      <th>Project Name</th>
-                      <th>Donor</th>
-                      <th>Status</th>
-                      <th>remark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  <?php
-                   include 'database.php';
-                   $pdo = Database::connect();
-                   $sql = 'SELECT * FROM customers ORDER BY id DESC';
-                   foreach ($pdo->query($sql) as $row) {
-                            echo '<tr>';
-                            echo '<td>'. $row['PID'] . '</td>';
-                            echo '<td>'. $row['PName'] . '</td>';
-                            echo '<td>'. $row['DName'] . '</td>';
-                            echo '<td>'. $row['PState'] . '</td>';
-                            echo '<td>'. $row['Discription'] . '</td>';
-                            echo '</tr>';
-                   }
-                   Database::disconnect();
-                  ?>
-                  </tbody>
-            </table>
-                            </div>
+                           <div class="container">
+     
+                <div class="span10 offset1">
+                    
+                     
+                    <form class="form-horizontal" action="deleteFinacial.php" method="post">
+                      <input type="hidden" name="id" value="<?php echo $id;?>"/>
+                      <p class="alert alert-error">Are you sure to delete ?</p>
+                      <div class="form-actions">
+                          <button type="submit" class="btn btn-danger">Yes</button>
+                          <a class="btn" href="readFin.php">No</a>
                         </div>
-                    </div>
+                    </form>
+                </div>
+                 
+    </div> <!-- /container -->
+
+
+             
+                    
+
+                            </div> <!----/.body--->
+                        </div> 
+                    </div><!----/.col--->
                 </div>
                 <!-- /.row -->
 
-          		<div class="row">
-                </div><!----/.row--->
+          		
 
             </div>
             <!-- /.container-fluid -->
