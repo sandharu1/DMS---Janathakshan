@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>CreateProject - Janathakshan - DMS</title>
+    <title>Janathakshan - DMS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -33,91 +33,27 @@
     <![endif]-->
 <?php
     require 'database.php';
- 
     $id = null;
     if ( !empty($_GET['id'])) {
         $id = $_REQUEST['id'];
     }
      
     if ( null==$id ) {
-        header("Location: readFin.php");
-    }
-     
-    if ( !empty($_POST)) {
-        // keep track validation errors
-        $FStageError = null;
-        $FSStatusError = null;
-        $TraIDError = null;
-        $TraDateError = null;
-		$TraDueDateError = null;
-		$FSRemarkError = null;
-         
-        // keep track post values
-        $FStage = $_POST['FStage'];
-        $FSStatus = $_POST['FSStatus'];
-        $TraID = $_POST['TraID'];
-        $TraDate = $_POST['TraDate'];
-		$TraDueDate = $_POST['TraDueDate'];
-		$FSRemark = $_POST['FSRemark'];
-         
-        // validate input
-         $valid = true;
-        if (empty($FStage)) {
-            $FStageError = 'Enter Stage';
-            $valid = false;
-        }
-         
-        if (empty($FSStatus)) {
-            $FSStatusError = 'Enter Stage Status';
-            $valid = false;
-        }
-		
-		if ( empty($TraID)) {
-            $TraIDError = 'Enter Transaction ID';
-            $valid = false;
-        }
-         
-        if (empty($TraDate)) {
-            $TraDateError = 'Enter Transaction Date';
-            $valid = false;
-        }
-		 if (empty($TraDueDate)) {
-            $TraDueDateError = 'Enter Transaction Due Date';
-            $valid = false;
-        }
-        if (empty($FSRemark)) {
-            $FSRemarkError = 'Enter Stage Remark';
-            $valid = false;
-        }
-		
-         
-        // update data
-        if ($valid) {
-            $pdo = Database::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE projects  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE id = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark));
-            Database::disconnect();
-            header("Location: readFin.php");
-        }
+        header("Location: PinfoFinacial.php");
     } else {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM FinStages where id = ?";
+        $sql = "SELECT * FROM Projects where id = ?";
+		$sql = "SELECT * FROM Donor where id = ?"; 
+		$sql = "SELECT * FROM Contract where id = ?";
+		$sql = "SELECT * FROM StagesFin where id = ?";
+		$sql = "SELECT * FROM Program where id = ?";
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-        $FStage = $data['FStage'];
-        $FSStatus = $data['FSStatus'];
-        $TraID = $data['TraID'];
-		$TraDate = $data['TraDate'];
-		$TraDueDate = $data['TraDueDate'];
-		$FSRemark = $data['FSRemark'];
         Database::disconnect();
     }
 ?>
-
 
 </head>
 
@@ -245,7 +181,7 @@
                         <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectInfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
@@ -262,10 +198,10 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Program</a>
-                            </li>
                             <li class="active">
+                                <a href="PinfoPrograme.php">Program</a>
+                            </li>
+                            <li>
                                 <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
@@ -286,11 +222,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Projects <small>Statistics Overview</small>
+                            Program <small>Full info</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Update Projects
+                                <i class="fa fa-dashboard"></i> Program catogory
                             </li>
                         </ol>
                     </div>
@@ -299,94 +235,178 @@
 
                 
 
+               
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Projects</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Projects Info.</h3>
                             </div>
                             <div class="panel-body">
-                            <div class="container">
+                                 <div class="container">
      
                 <div class="span10 offset1">
-                
-             
-                    <form class="form-horizontal" action="updateFinacial.php?id=<?php echo $id?>" method="post">
-                      <div class="control-group <?php echo !empty($FStageError)?'error':'';?>">
-                        <label class="control-label">Finacial Stage</label>
+                 
+                      <div class="form-horizontal" >
+                      <div class="control-group">
+                        <label class="control-label">Project ID: </label>
                         <div class="controls">
-                            <input name="FStage" type="text"  placeholder="Finacial Stage" value="<?php echo !empty($FStage)?$FStage:'';?>">
-                            <?php if (!empty($FStageError)): ?>
-                                <span class="help-inline"><?php echo $FStageError;?></span>
-                            <?php endif; ?>
+                            <label class="checkbox">
+                                <?php echo $data['PID'];?>
+                            </label>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($FSStatusError)?'error':'';?>">
-                        <label class="control-label">Stage Status</label>
+                      <div class="control-group">
+                        <label class="control-label">Project Name: </label>
                         <div class="controls">
-                            <input name="FSStatus" type="text" placeholder="Stage Status" value="<?php echo !empty($FSStatus)?$FSStatus:'';?>">
-                            <?php if (!empty($FSStatusError)): ?>
-                                <span class="help-inline"><?php echo $FSStatusError;?></span>
-                            <?php endif;?>
+                            <label class="checkbox">
+                                <?php echo $data['PName'];?>
+                            </label>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TraIDError)?'error':'';?>">
-                        <label class="control-label">Transaction ID</label>
+                      <div class="control-group">
+                        <label class="control-label">Donor ID: </label>
                         <div class="controls">
-                            <input name="TraID" type="text"  placeholder="Transaction ID" value="<?php echo !empty($TraID)?$TraID:'';?>">
-                            <?php if (!empty($TraIDError)): ?>
-                                <span class="help-inline"><?php echo $TraIDError;?></span>
-                            <?php endif;?>
+                            <label class="checkbox">
+                                <?php echo $data['DID'];?>
+                            </label>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TraDateError)?'error':'';?>">
-                        <label class="control-label">Transaction Date</label>
+                      <div class="control-group">
+                        <label class="control-label">Project Status: </label>
                         <div class="controls">
-                            <input name="TraDate" type="text"  placeholder="Transaction Date" value="<?php echo !empty($TraDate)?$TraDate:'';?>">
-                            <?php if (!empty($TraDateError)): ?>
-                                <span class="help-inline"><?php echo $TraDateError;?></span>
-                            <?php endif;?>
+                            <label class="checkbox">
+                                <?php echo $data['Status'];?>
+                            </label>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TraDueDateError)?'error':'';?>">
-                        <label class="control-label">Transaction Due Date</label>
-                        <div class="controls">
-                            <input name="TraDueDate" type="text"  placeholder="Transaction Due date" value="<?php echo !empty($TraDueDate)?$TraDueDate:'';?>">
-                            <?php if (!empty($TraDueDateError)): ?>
-                                <span class="help-inline"><?php echo $TraDueDateError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($FSRemarkError)?'error':'';?>">
-                        <label class="control-label">Stage Remark</label>
-                        <div class="controls">
-                            <input name="FSRemark" type="text"  placeholder="Stage Remark" value="<?php echo !empty($FSRemark)?$FSRemark:'';?>">
-                            <?php if (!empty($FSRemarkError)): ?>
-                                <span class="help-inline"><?php echo $FSRemarkError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
+                     
+                     
+                        <div class="form-actions">
+                          <a class="btn" href="PinfoProgram.php">Back</a>
+                       </div>
+                     
                       
-                      <div class="form-actions">
-                          <button type="submit" class="btn btn-success">Update</button>
-                          <a class="btn" href="readFin.php">Back</a>
-                        </div>
-                    </form>
+                    </div>
                 </div>
                  
     </div> <!-- /container -->
-
-             
+    
+                            </div>
+                        </div>
+                    </div> <!-----/.col--->
                     
-
-                            </div> <!----/.body--->
-                        </div> 
-                    </div><!----/.col--->
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Contract & Program Info.</h3>
+                            </div>
+                            <div class="panel-body">
+                                 <div class="container">
+     
+                <div class="span10 offset1">
+                                         
+                    <div class="form-horizontal" >
+                      <div class="control-group">
+                        <label class="control-label">Contract ID: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['ConID'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Program ID: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['ProID'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Total Finance: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['TotFinacial'];?>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Remarks: </label>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <?php echo $data['Remarks'];?>
+                            </label>
+                        </div>
+                      </div>
+                        <div class="form-actions">
+                          <a class="btn" href="PinfoProgram.php">Back</a>
+                       </div>
+                     
+                      
+                    </div>
+                </div>
+                 
+    </div> <!-- /container -->
+    
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.row -->
 
-          		
+          		<div class="row">
+                <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Programe Info.</h3>
+                            </div>
+                            <div class="panel-body">
+                      <p>
+                    <a href="createProgram.php" class="btn btn-success">Create</a>
+                </p>
+                            <table class="table table-striped table-bordered">
+                              <thead>
+                    <tr>
+                      <th>Pro. Stage</th>
+                      <th>Stage Status</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Due Date</th>
+                      <th>Remarks</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                   include 'database.php';
+                   $pdo = Database::connect();
+                   $sql = 'SELECT * FROM ProStages ORDER BY id DESC';
+                   foreach ($pdo->query($sql) as $row) {
+                            echo '<tr>';
+                            echo '<td>'. $row['PStage'] . '</td>';
+                            echo '<td>'. $row['PSStatus'] . '</td>';
+                            echo '<td>'. $row['ProStartDate'] . '</td>';
+                            echo '<td>'. $row['ProEndDate'] . '</td>';
+                            echo '<td>'. $row['ProDueDate'] . '</td>';
+							echo '<td>'. $row['PSRemark'] . '</td>';
+							echo '<td width=250>';
+                            echo '<a class="btn btn-success" href="updateProgram.php?id='.$row['id'].'">Update</a>';
+                            echo ' ';
+                            echo '<a class="btn btn-danger" href="deleteProgram.php?id='.$row['id'].'">Delete</a>';
+                            echo '</td>';
+                            echo '</tr>';
+                   }
+                   Database::disconnect();
+                  ?>
+                  </tbody>
+            </table>
+                            </div><!----/.body--->
+                         </div><!----/.panel----->
+                </div><!--------/.col--->
+                </div><!----/.row--->
 
+				
             </div>
             <!-- /.container-fluid -->
 

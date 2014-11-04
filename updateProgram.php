@@ -40,53 +40,53 @@
     }
      
     if ( null==$id ) {
-        header("Location: readFin.php");
+        header("Location: readPro.php");
     }
      
     if ( !empty($_POST)) {
         // keep track validation errors
-        $FStageError = null;
-        $FSStatusError = null;
-        $TraIDError = null;
-        $TraDateError = null;
-		$TraDueDateError = null;
-		$FSRemarkError = null;
+        $PStageError = null;
+        $PSStatusError = null;
+        $ProStartDateError = null;
+        $ProEndDateError = null;
+		$ProDueDateError = null;
+		$PSRemarkError = null;
          
         // keep track post values
-        $FStage = $_POST['FStage'];
-        $FSStatus = $_POST['FSStatus'];
-        $TraID = $_POST['TraID'];
-        $TraDate = $_POST['TraDate'];
-		$TraDueDate = $_POST['TraDueDate'];
-		$FSRemark = $_POST['FSRemark'];
+        $PStage = $_POST['FStage'];
+        $PSStatus = $_POST['PSStatus'];
+        $ProStartDate = $_POST['ProStartDate'];
+        $ProEndDate = $_POST['ProEndDate'];
+		$ProDueDate = $_POST['ProDueDate'];
+		$PSRemark = $_POST['PSRemark'];
          
         // validate input
          $valid = true;
-        if (empty($FStage)) {
-            $FStageError = 'Enter Stage';
+        if (empty($PStage)) {
+            $PStageError = 'Enter Stage';
             $valid = false;
         }
          
-        if (empty($FSStatus)) {
-            $FSStatusError = 'Enter Stage Status';
+        if (empty($PSStatus)) {
+            $PSStatusError = 'Enter Stage Status';
             $valid = false;
         }
 		
-		if ( empty($TraID)) {
-            $TraIDError = 'Enter Transaction ID';
+		if ( empty($ProStartDate)) {
+            $ProStartDateError = 'Enter Pro. Start Date';
             $valid = false;
         }
          
-        if (empty($TraDate)) {
-            $TraDateError = 'Enter Transaction Date';
+        if (empty($ProEndDate)) {
+            $ProEndDateError = 'Enter Pro. End Date';
             $valid = false;
         }
-		 if (empty($TraDueDate)) {
-            $TraDueDateError = 'Enter Transaction Due Date';
+		 if (empty($ProDueDate)) {
+            $ProDueDateError = 'Enter Programe Due Date';
             $valid = false;
         }
-        if (empty($FSRemark)) {
-            $FSRemarkError = 'Enter Stage Remark';
+        if (empty($PSRemark)) {
+            $PSRemarkError = 'Enter Stage Remark';
             $valid = false;
         }
 		
@@ -95,25 +95,25 @@
         if ($valid) {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE projects  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE id = ?";
+            $sql = "UPDATE ProStages set PStage = ?, PSStatus = ?, ProStartDate =?, ProEndDate =?, ProDueDate =?, PSRemak =? WHERE id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark));
+            $q->execute(array($PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
             Database::disconnect();
-            header("Location: readFin.php");
+            header("Location: readPro.php");
         }
     } else {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM FinStages where id = ?";
+        $sql = "SELECT * FROM ProStages where id = ?";
         $q = $pdo->prepare($sql);
         $q->execute(array($id));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-        $FStage = $data['FStage'];
-        $FSStatus = $data['FSStatus'];
-        $TraID = $data['TraID'];
-		$TraDate = $data['TraDate'];
-		$TraDueDate = $data['TraDueDate'];
-		$FSRemark = $data['FSRemark'];
+        $PStage = $data['PStage'];
+        $PSStatus = $data['PSStatus'];
+        $ProStartDate = $data['ProStartDate'];
+		$ProEndDate = $data['ProEndDate'];
+		$ProDueDate = $data['ProDueDate'];
+		$PSRemark = $data['PSRemark'];
         Database::disconnect();
     }
 ?>
@@ -262,10 +262,10 @@
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Program</a>
-                            </li>
                             <li class="active">
+                                <a href="PinfoProgram.php">Program</a>
+                            </li>
+                            <li>
                                 <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
@@ -311,65 +311,65 @@
                 <div class="span10 offset1">
                 
              
-                    <form class="form-horizontal" action="updateFinacial.php?id=<?php echo $id?>" method="post">
-                      <div class="control-group <?php echo !empty($FStageError)?'error':'';?>">
-                        <label class="control-label">Finacial Stage</label>
+                    <form class="form-horizontal" action="updateProgram.php?id=<?php echo $id?>" method="post">
+                      <div class="control-group <?php echo !empty($PStageError)?'error':'';?>">
+                        <label class="control-label">Program Stage</label>
                         <div class="controls">
-                            <input name="FStage" type="text"  placeholder="Finacial Stage" value="<?php echo !empty($FStage)?$FStage:'';?>">
-                            <?php if (!empty($FStageError)): ?>
-                                <span class="help-inline"><?php echo $FStageError;?></span>
+                            <input name="FStage" type="text"  placeholder="Program Stage" value="<?php echo !empty($PStage)?$PStage:'';?>">
+                            <?php if (!empty($PStageError)): ?>
+                                <span class="help-inline"><?php echo $PStageError;?></span>
                             <?php endif; ?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($FSStatusError)?'error':'';?>">
+                      <div class="control-group <?php echo !empty($PSStatusError)?'error':'';?>">
                         <label class="control-label">Stage Status</label>
                         <div class="controls">
-                            <input name="FSStatus" type="text" placeholder="Stage Status" value="<?php echo !empty($FSStatus)?$FSStatus:'';?>">
-                            <?php if (!empty($FSStatusError)): ?>
-                                <span class="help-inline"><?php echo $FSStatusError;?></span>
+                            <input name="FSStatus" type="text" placeholder="Stage Status" value="<?php echo !empty($PSStatus)?$PSStatus:'';?>">
+                            <?php if (!empty($PSStatusError)): ?>
+                                <span class="help-inline"><?php echo $PSStatusError;?></span>
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TraIDError)?'error':'';?>">
-                        <label class="control-label">Transaction ID</label>
+                      <div class="control-group <?php echo !empty($ProStartError)?'error':'';?>">
+                        <label class="control-label">Program Start Date</label>
                         <div class="controls">
-                            <input name="TraID" type="text"  placeholder="Transaction ID" value="<?php echo !empty($TraID)?$TraID:'';?>">
-                            <?php if (!empty($TraIDError)): ?>
-                                <span class="help-inline"><?php echo $TraIDError;?></span>
+                            <input name="TraID" type="text"  placeholder="Program Start Date" value="<?php echo !empty($ProStartDate)?$ProStartDate:'';?>">
+                            <?php if (!empty($ProStartDateError)): ?>
+                                <span class="help-inline"><?php echo $ProStartDateError;?></span>
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TraDateError)?'error':'';?>">
-                        <label class="control-label">Transaction Date</label>
+                      <div class="control-group <?php echo !empty($ProEndDateError)?'error':'';?>">
+                        <label class="control-label">Program End Date</label>
                         <div class="controls">
-                            <input name="TraDate" type="text"  placeholder="Transaction Date" value="<?php echo !empty($TraDate)?$TraDate:'';?>">
-                            <?php if (!empty($TraDateError)): ?>
-                                <span class="help-inline"><?php echo $TraDateError;?></span>
+                            <input name="TraDate" type="text"  placeholder="rogram End Date" value="<?php echo !empty($ProEndDate)?$ProEndDate:'';?>">
+                            <?php if (!empty($ProEndDateError)): ?>
+                                <span class="help-inline"><?php echo $ProEndDateError;?></span>
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TraDueDateError)?'error':'';?>">
-                        <label class="control-label">Transaction Due Date</label>
+                      <div class="control-group <?php echo !empty($ProDueDateError)?'error':'';?>">
+                        <label class="control-label">Program Due Date</label>
                         <div class="controls">
-                            <input name="TraDueDate" type="text"  placeholder="Transaction Due date" value="<?php echo !empty($TraDueDate)?$TraDueDate:'';?>">
-                            <?php if (!empty($TraDueDateError)): ?>
-                                <span class="help-inline"><?php echo $TraDueDateError;?></span>
+                            <input name="TraDueDate" type="text"  placeholder="Program Due date" value="<?php echo !empty($ProDueDate)?$ProDueDate:'';?>">
+                            <?php if (!empty($ProDueDateError)): ?>
+                                <span class="help-inline"><?php echo $ProDueDateError;?></span>
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($FSRemarkError)?'error':'';?>">
+                      <div class="control-group <?php echo !empty($PSRemarkError)?'error':'';?>">
                         <label class="control-label">Stage Remark</label>
                         <div class="controls">
-                            <input name="FSRemark" type="text"  placeholder="Stage Remark" value="<?php echo !empty($FSRemark)?$FSRemark:'';?>">
-                            <?php if (!empty($FSRemarkError)): ?>
-                                <span class="help-inline"><?php echo $FSRemarkError;?></span>
-                            <?php endif;?>
+                            <input name="PSRemark" type="text"  placeholder="Stage Remark" value="<?php echo !empty($PSRemark)?$PSRemark:'';?>">
+                            <?php if (!empty($PSRemarkError)): ?>
+                                <span class="help-inline"><?php echo $PSRemarkError;?></span>
+                            <?php endif; ?> 
                         </div>
                       </div>
                       
                       <div class="form-actions">
                           <button type="submit" class="btn btn-success">Update</button>
-                          <a class="btn" href="readFin.php">Back</a>
+                          <a class="btn" href="readPro.php">Back</a>
                         </div>
                     </form>
                 </div>
