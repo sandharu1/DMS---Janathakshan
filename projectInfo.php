@@ -244,9 +244,9 @@
                                 echo '<td>'. $row['PID'] . '</td>';
                                 echo '<td>'. $row['DID'] . '</td>';
                                 echo '<td>'. $row['PName'] . '</td>';
-								echo '<td>'. $row['status'] . '</td>';
+								echo '<td>'. $row['PStatus'] . '</td>';
 								echo '<td>'. $row['Response'] . '</td>';
-								echo '<td>'. $row['Remark'] . '</td>';
+								echo '<td>'. $row['PRemark'] . '</td>';
 								echo '<td width=250>';
                                 echo '<a class="btn" href="read.php?id='.$row['id'].'">Read</a>';
                                 echo ' ';

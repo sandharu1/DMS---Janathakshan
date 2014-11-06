@@ -39,11 +39,11 @@
     }
      
     if ( null==$id ) {
-        header("Location: index.php");
+        header("Location: adminDboard.php");
     } else {
         $pdo = Database::connect();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM Drojects where id = ?";
+        $sql = "SELECT * FROM Projects where id = ?";
 		$sql = "SELECT * FROM Donor where id = ?"; 
 		$sql = "SELECT * FROM Contract where id = ?";
 		$sql = "SELECT * FROM Program where id = ?";
@@ -265,10 +265,10 @@
                         </div>
                       </div>
                       <div class="control-group">
-                        <label class="control-label">Donor ID: </label>
+                        <label class="control-label">Project Date: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['DID'];?>
+                                <?php echo $data['PDate'];?>
                             </label>
                         </div>
                       </div>
@@ -276,7 +276,7 @@
                         <label class="control-label">Project Status: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['Status'];?>
+                                <?php echo $data['PStatus'];?>
                             </label>
                         </div>
                       </div>
@@ -289,10 +289,10 @@
                         </div>
                       </div>
                       <div class="control-group">
-                        <label class="control-label">Remarks: </label>
+                        <label class="control-label">Project Remarks: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['Remarks'];?>
+                                <?php echo $data['PRemarks'];?>
                             </label>
                         </div>
                       </div>
@@ -349,7 +349,7 @@
                         <label class="control-label">Donor Email: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['Status'];?>
+                                <?php echo $data['DEmail'];?>
                             </label>
                         </div>
                       </div>
@@ -357,7 +357,7 @@
                         <label class="control-label">Contract Approved Date: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['CAppDate'];?>
+                                <?php echo $data['ConAppDate'];?>
                             </label>
                         </div>
                       </div>
@@ -406,10 +406,10 @@
                         </div>
                       </div>
                       <div class="control-group">
-                        <label class="control-label">finacial Condition: </label>
+                        <label class="control-label">Finacial Condition: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['DName'];?>
+                                <?php echo $data['FinCond'];?>
                             </label>
                         </div>
                       </div>
@@ -430,7 +430,7 @@
                       <th>Stage Status</th>
                       <th>Transaction ID</th>
                       <th>Transaction Date</th>
-                      <th>Due Date</th>
+                      <th>Tra. Due Date</th>
                       <th>Remarks</th>
                     </tr>
                   </thead>
@@ -438,14 +438,14 @@
                   <?php
                    include 'database.php';
                    $pdo = Database::connect();
-                   $sql = 'SELECT * FROM PStages ORDER BY id DESC';
+                   $sql = 'SELECT * FROM FinStages ORDER BY id DESC';
                    foreach ($pdo->query($sql) as $row) {
                             echo '<tr>';
                             echo '<td>'. $row['FStage'] . '</td>';
-                            echo '<td>'. $row['status'] . '</td>';
+                            echo '<td>'. $row['FSstatus'] . '</td>';
                             echo '<td>'. $row['TraID'] . '</td>';
                             echo '<td>'. $row['TraDate'] . '</td>';
-                            echo '<td>'. $row['DueDate'] . '</td>';
+                            echo '<td>'. $row['TraDueDate'] . '</td>';
 							echo '<td>'. $row['FSRemark'] . '</td>';
                             echo '</tr>';
                    }
@@ -482,7 +482,7 @@
                         <label class="control-label">Program Condition: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['DName'];?>
+                                <?php echo $data['ProCond'];?>
                             </label>
                         </div>
                       </div>
@@ -502,6 +502,7 @@
                       <th>Pro. Stage</th>
                       <th>Stage Status</th>
                       <th>Start Date</th>
+                      <th>End Date</th>
                       <th>Due Date</th>
                       <th>Pro. remarks</th>
                     </tr>
@@ -513,10 +514,11 @@
                    $sql = 'SELECT * FROM PStages ORDER BY id DESC';
                    foreach ($pdo->query($sql) as $row) {
                             echo '<tr>';
-                            echo '<td>'. $row['Stage'] . '</td>';
-                            echo '<td>'. $row['Status'] . '</td>';
-                            echo '<td>'. $row['StartDate'] . '</td>';
-                            echo '<td>'. $row['DueDate'] . '</td>';
+                            echo '<td>'. $row['PStage'] . '</td>';
+                            echo '<td>'. $row['PSStatus'] . '</td>';
+                            echo '<td>'. $row['ProStartDate'] . '</td>';
+							echo '<td>'. $row['ProEndDate'] . '</td>';
+                            echo '<td>'. $row['ProDueDate'] . '</td>';
                             echo '<td>'. $row['PSRemark'] . '</td>';
                             echo '</tr>';
                    }
