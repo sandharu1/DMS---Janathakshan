@@ -1,3 +1,31 @@
+<?php
+    require("database.php");
+    if(empty($_SESSION['user'])) 
+    {
+        header("Location: index.php");
+        die("Redirecting to index.php"); 
+    }
+    $id = 0;
+     
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( !empty($_POST)) {
+        // keep track post values
+        $id = $_POST['id'];
+         
+        // delete data
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM FinStages WHERE id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        Database::disconnect();
+        header("Location: ReadFin.php");
+         
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,31 +56,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<?php
-    require 'database.php';
-    $id = 0;
-     
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
-    }
-     
-    if ( !empty($_POST)) {
-        // keep track post values
-        $id = $_POST['id'];
-         
-        // delete data
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM FinStages WHERE id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
-        Database::disconnect();
-        header("Location: ReadFin.php");
-         
-    }
-?>
-
-
 
 </head>
 
@@ -155,7 +158,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -168,7 +171,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>

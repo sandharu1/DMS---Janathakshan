@@ -1,3 +1,12 @@
+<?php
+    require("database.php");
+    if(empty($_SESSION['user'])) 
+    {
+        header("Location: index.php");
+        die("Redirecting to index.php"); 
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,6 +44,14 @@
 </head>
 
 <body>
+<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+    
 
     <div id="wrapper">
 
@@ -48,7 +65,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -133,7 +150,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -146,7 +163,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -155,10 +172,10 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
+                        <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectInfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
@@ -176,10 +193,10 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Program</a>
+                                <a href="PinfoProgram.php">Program</a>
                             </li>
                             <li class="active">
-                                <a href="#">Finacial</a>
+                                <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
                     </li>
@@ -234,10 +251,9 @@
                       </thead>
                       <tbody>
                       <?php
-                       include 'database.php';
-                       $pdo = Database::connect();
-                       $sql = 'SELECT * FROM projects, donor, contract ORDER BY id DESC';
-                       foreach ($pdo->query($sql) as $row) {
+                       
+                       $sql = 'SELECT * FROM projects, donor, contract ORDER BY PID DESC';
+                       foreach ($db->query($sql) as $row) {
                                 echo '<tr>';
                                 echo '<td>'. $row['PID'] . '</td>';
                                 echo '<td>'. $row['DID'] . '</td>';
@@ -246,12 +262,12 @@
 								echo '<td>'. $row['ProID'] . '</td>';
 								echo '<td>'. $row['Remark'] . '</td>'; 
 								echo '<td width=50>';
-                                echo '<a class="btn" href="readPro.php?id='.$row['id'].'">Read</a>';
+                                echo '<a class="btn" href="readPro.php?id='.$row['PID'].'">Read</a>';
                                 echo '</td>';
 
                                 echo '</tr>';
                        }
-                       Database::disconnect();
+                       
                       ?>
                       </tbody>
                 </table>

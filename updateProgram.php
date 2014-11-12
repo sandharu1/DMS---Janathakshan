@@ -1,3 +1,95 @@
+<?php
+    require("database.php");
+    if(empty($_SESSION['user'])) 
+    {
+        header("Location: index.php");
+        die("Redirecting to index.php"); 
+    }
+ 
+    $id = null;
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( null==$id ) {
+        header("Location: readPro.php");
+    }
+     
+    if ( !empty($_POST)) {
+        // keep track validation errors
+        $PStageError = null;
+        $PSStatusError = null;
+        $ProStartDateError = null;
+        $ProEndDateError = null;
+        $ProDueDateError = null;
+        $PSRemarkError = null;
+         
+        // keep track post values
+        $PStage = $_POST['FStage'];
+        $PSStatus = $_POST['PSStatus'];
+        $ProStartDate = $_POST['ProStartDate'];
+        $ProEndDate = $_POST['ProEndDate'];
+        $ProDueDate = $_POST['ProDueDate'];
+        $PSRemark = $_POST['PSRemark'];
+         
+        // validate input
+         $valid = true;
+        if (empty($PStage)) {
+            $PStageError = 'Enter Stage';
+            $valid = false;
+        }
+         
+        if (empty($PSStatus)) {
+            $PSStatusError = 'Enter Stage Status';
+            $valid = false;
+        }
+        
+        if ( empty($ProStartDate)) {
+            $ProStartDateError = 'Enter Pro. Start Date';
+            $valid = false;
+        }
+         
+        if (empty($ProEndDate)) {
+            $ProEndDateError = 'Enter Pro. End Date';
+            $valid = false;
+        }
+         if (empty($ProDueDate)) {
+            $ProDueDateError = 'Enter Programe Due Date';
+            $valid = false;
+        }
+        if (empty($PSRemark)) {
+            $PSRemarkError = 'Enter Stage Remark';
+            $valid = false;
+        }
+        
+         
+        // update data
+        if ($valid) {
+            
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "UPDATE ProStages set PStage = ?, PSStatus = ?, ProStartDate =?, ProEndDate =?, ProDueDate =?, PSRemak =? WHERE id = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
+            
+            header("Location: readPro.php");
+        }
+    } else {
+        
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM ProStages where id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $PStage = $data['PStage'];
+        $PSStatus = $data['PSStatus'];
+        $ProStartDate = $data['ProStartDate'];
+        $ProEndDate = $data['ProEndDate'];
+        $ProDueDate = $data['ProDueDate'];
+        $PSRemark = $data['PSRemark'];
+        
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,107 +108,13 @@
 
     <!-- Default CSS -->
     <link href="css/default.css" rel="stylesheet">
-	<!--- admin CSS--->
+	<!--- admin CSS-->
     <link href="css/admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS 
-    <link href="css/plugins/morris.css" rel="stylesheet"> -->
+   
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<?php
-    require 'database.php';
- 
-    $id = null;
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
-    }
-     
-    if ( null==$id ) {
-        header("Location: readPro.php");
-    }
-     
-    if ( !empty($_POST)) {
-        // keep track validation errors
-        $PStageError = null;
-        $PSStatusError = null;
-        $ProStartDateError = null;
-        $ProEndDateError = null;
-		$ProDueDateError = null;
-		$PSRemarkError = null;
-         
-        // keep track post values
-        $PStage = $_POST['FStage'];
-        $PSStatus = $_POST['PSStatus'];
-        $ProStartDate = $_POST['ProStartDate'];
-        $ProEndDate = $_POST['ProEndDate'];
-		$ProDueDate = $_POST['ProDueDate'];
-		$PSRemark = $_POST['PSRemark'];
-         
-        // validate input
-         $valid = true;
-        if (empty($PStage)) {
-            $PStageError = 'Enter Stage';
-            $valid = false;
-        }
-         
-        if (empty($PSStatus)) {
-            $PSStatusError = 'Enter Stage Status';
-            $valid = false;
-        }
-		
-		if ( empty($ProStartDate)) {
-            $ProStartDateError = 'Enter Pro. Start Date';
-            $valid = false;
-        }
-         
-        if (empty($ProEndDate)) {
-            $ProEndDateError = 'Enter Pro. End Date';
-            $valid = false;
-        }
-		 if (empty($ProDueDate)) {
-            $ProDueDateError = 'Enter Programe Due Date';
-            $valid = false;
-        }
-        if (empty($PSRemark)) {
-            $PSRemarkError = 'Enter Stage Remark';
-            $valid = false;
-        }
-		
-         
-        // update data
-        if ($valid) {
-            $pdo = Database::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE ProStages set PStage = ?, PSStatus = ?, ProStartDate =?, ProEndDate =?, ProDueDate =?, PSRemak =? WHERE id = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
-            Database::disconnect();
-            header("Location: readPro.php");
-        }
-    } else {
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM ProStages where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        $PStage = $data['PStage'];
-        $PSStatus = $data['PSStatus'];
-        $ProStartDate = $data['ProStartDate'];
-		$ProEndDate = $data['ProEndDate'];
-		$ProDueDate = $data['ProDueDate'];
-		$PSRemark = $data['PSRemark'];
-        Database::disconnect();
-    }
-?>
 
 
 </head>
@@ -135,7 +133,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -146,8 +144,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                       <!-------for use profile pic---- <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> ---->
+                                       <!---for use profile pic- <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>CEO</strong>
                                         </h5>
@@ -161,8 +159,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <!------- for use profile pic----<img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> --->
+                                        <!--- for use profile pic-<img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Donor</strong>
                                         </h5>
@@ -175,9 +173,9 @@
                         <li class="message-preview">
                             <a href="#">
                                 <div class="media">
-                                    <!-- If use user pic-------- <span class="pull-left">
+                                    <!-- If use user pic- <span class="pull-left">
                                         <img class="media-object" src="#" alt="">
-                                    </span> --->
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Finacial manager</strong>
                                         </h5>
@@ -245,20 +243,12 @@
                         <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectinfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
                     </li>
-                    <!---<li>
-                        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-wrench"></i> Projects</a>
-                    </li> --->
+                    
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -270,9 +260,7 @@
                             </li>
                         </ul>
                     </li>
-                   <!------ <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> ----->
+                   
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -379,9 +367,9 @@
              
                     
 
-                            </div> <!----/.body--->
+                            </div> <!---/.body-->
                         </div> 
-                    </div><!----/.col--->
+                    </div><!---/.col-->
                 </div>
                 <!-- /.row -->
 

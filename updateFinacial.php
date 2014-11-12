@@ -1,3 +1,95 @@
+<?php
+    require("database.php");
+    if(empty($_SESSION['user'])) 
+    {
+        header("Location: index.php");
+        die("Redirecting to index.php"); 
+    }
+ 
+    $id = null;
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( null==$id ) {
+        header("Location: readFin.php");
+    }
+     
+    if ( !empty($_POST)) {
+        // keep track validation errors
+        $FStageError = null;
+        $FSStatusError = null;
+        $TraIDError = null;
+        $TraDateError = null;
+        $TraDueDateError = null;
+        $FSRemarkError = null;
+         
+        // keep track post values
+        $FStage = $_POST['FStage'];
+        $FSStatus = $_POST['FSStatus'];
+        $TraID = $_POST['TraID'];
+        $TraDate = $_POST['TraDate'];
+        $TraDueDate = $_POST['TraDueDate'];
+        $FSRemark = $_POST['FSRemark'];
+         
+        // validate input
+         $valid = true;
+        if (empty($FStage)) {
+            $FStageError = 'Enter Stage';
+            $valid = false;
+        }
+         
+        if (empty($FSStatus)) {
+            $FSStatusError = 'Enter Stage Status';
+            $valid = false;
+        }
+        
+        if ( empty($TraID)) {
+            $TraIDError = 'Enter Transaction ID';
+            $valid = false;
+        }
+         
+        if (empty($TraDate)) {
+            $TraDateError = 'Enter Transaction Date';
+            $valid = false;
+        }
+         if (empty($TraDueDate)) {
+            $TraDueDateError = 'Enter Transaction Due Date';
+            $valid = false;
+        }
+        if (empty($FSRemark)) {
+            $FSRemarkError = 'Enter Stage Remark';
+            $valid = false;
+        }
+        
+         
+        // update data
+        if ($valid) {
+            
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "UPDATE projects  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE id = ?";
+            $q = $pdo->prepare($sql);
+            $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark));
+            
+            header("Location: readFin.php");
+        }
+    } else {
+        
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM FinStages where id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        $FStage = $data['FStage'];
+        $FSStatus = $data['FSStatus'];
+        $TraID = $data['TraID'];
+        $TraDate = $data['TraDate'];
+        $TraDueDate = $data['TraDueDate'];
+        $FSRemark = $data['FSRemark'];
+        
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +108,7 @@
 
     <!-- Default CSS -->
     <link href="css/default.css" rel="stylesheet">
-	<!--- admin CSS--->
+	<!--- admin CSS-->
     <link href="css/admin.css" rel="stylesheet">
 
     <!-- Morris Charts CSS 
@@ -24,99 +116,6 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<?php
-    require 'database.php';
- 
-    $id = null;
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
-    }
-     
-    if ( null==$id ) {
-        header("Location: readFin.php");
-    }
-     
-    if ( !empty($_POST)) {
-        // keep track validation errors
-        $FStageError = null;
-        $FSStatusError = null;
-        $TraIDError = null;
-        $TraDateError = null;
-		$TraDueDateError = null;
-		$FSRemarkError = null;
-         
-        // keep track post values
-        $FStage = $_POST['FStage'];
-        $FSStatus = $_POST['FSStatus'];
-        $TraID = $_POST['TraID'];
-        $TraDate = $_POST['TraDate'];
-		$TraDueDate = $_POST['TraDueDate'];
-		$FSRemark = $_POST['FSRemark'];
-         
-        // validate input
-         $valid = true;
-        if (empty($FStage)) {
-            $FStageError = 'Enter Stage';
-            $valid = false;
-        }
-         
-        if (empty($FSStatus)) {
-            $FSStatusError = 'Enter Stage Status';
-            $valid = false;
-        }
-		
-		if ( empty($TraID)) {
-            $TraIDError = 'Enter Transaction ID';
-            $valid = false;
-        }
-         
-        if (empty($TraDate)) {
-            $TraDateError = 'Enter Transaction Date';
-            $valid = false;
-        }
-		 if (empty($TraDueDate)) {
-            $TraDueDateError = 'Enter Transaction Due Date';
-            $valid = false;
-        }
-        if (empty($FSRemark)) {
-            $FSRemarkError = 'Enter Stage Remark';
-            $valid = false;
-        }
-		
-         
-        // update data
-        if ($valid) {
-            $pdo = Database::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE projects  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE id = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark));
-            Database::disconnect();
-            header("Location: readFin.php");
-        }
-    } else {
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM FinStages where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        $FStage = $data['FStage'];
-        $FSStatus = $data['FSStatus'];
-        $TraID = $data['TraID'];
-		$TraDate = $data['TraDate'];
-		$TraDueDate = $data['TraDueDate'];
-		$FSRemark = $data['FSRemark'];
-        Database::disconnect();
-    }
-?>
 
 
 </head>
@@ -135,7 +134,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -146,8 +145,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                       <!-------for use profile pic---- <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> ---->
+                                       <!---for use profile pic- <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>CEO</strong>
                                         </h5>
@@ -161,8 +160,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <!------- for use profile pic----<img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> --->
+                                        <!--- for use profile pic-<img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Donor</strong>
                                         </h5>
@@ -175,9 +174,9 @@
                         <li class="message-preview">
                             <a href="#">
                                 <div class="media">
-                                    <!-- If use user pic-------- <span class="pull-left">
+                                    <!-- If use user pic- <span class="pull-left">
                                         <img class="media-object" src="#" alt="">
-                                    </span> --->
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Finacial manager</strong>
                                         </h5>
@@ -222,18 +221,10 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
+            
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -245,34 +236,26 @@
                         <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectinfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
                     </li>
-                    <!---<li>
-                        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-wrench"></i> Projects</a>
-                    </li> --->
+                    
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Program</a>
+                                <a href="PinfoProgram.php">Program</a>
                             </li>
                             <li class="active">
                                 <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
                     </li>
-                   <!------ <li>
+                   <!--- <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> ----->
+                    </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -379,9 +362,9 @@
              
                     
 
-                            </div> <!----/.body--->
+                            </div> <!---/.body-->
                         </div> 
-                    </div><!----/.col--->
+                    </div><!---/.col-->
                 </div>
                 <!-- /.row -->
 

@@ -1,3 +1,11 @@
+<?php
+    require("database.php");
+    if(empty($_SESSION['user'])) 
+    {
+        header("Location: index.php");
+        die("Redirecting to index.php"); 
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,21 +24,14 @@
 
     <!-- Default CSS -->
     <link href="css/default.css" rel="stylesheet">
-	<!--- admin CSS--->
+	<!--- admin CSS-->
     <link href="css/admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS 
-    <link href="css/plugins/morris.css" rel="stylesheet"> -->
+    
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
@@ -48,7 +49,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -59,8 +60,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                       <!-------for use profile pic---- <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> ---->
+                                       <!---for use profile pic- <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>CEO</strong>
                                         </h5>
@@ -74,8 +75,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <!------- for use profile pic----<img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> --->
+                                        <!--- for use profile pic-<img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Donor</strong>
                                         </h5>
@@ -88,9 +89,9 @@
                         <li class="message-preview">
                             <a href="#">
                                 <div class="media">
-                                    <!-- If use user pic-------- <span class="pull-left">
+                                    <!-- If use user pic- <span class="pull-left">
                                         <img class="media-object" src="#" alt="">
-                                    </span> --->
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Finacial manager</strong>
                                         </h5>
@@ -133,25 +134,18 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Admin <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
+                       
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
             </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens (TeamV3) -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
@@ -171,21 +165,21 @@
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-wrench"></i> Projects</a>
-                    </li> --->
+                    </li> -->
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Program</a>
+                                <a href="PinfoProgram.php">Program</a>
                             </li>
                             <li>
                                 <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
                     </li>
-                   <!------ <li>
+                   <!--- <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> ----->
+                    </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -236,10 +230,8 @@
                       </thead>
                       <tbody>
                       <?php
-                       include 'database.php';
-                       $pdo = Database::connect();
-                       $sql = 'SELECT * FROM projects, donor ORDER BY id DESC';
-                       foreach ($pdo->query($sql) as $row) {
+                       $sql = "SELECT * FROM projects INNER JOIN donor ON projects.PID = donor.PID";
+                       foreach ($db->query($sql) as $row) {
                                 echo '<tr>';
                                 echo '<td>'. $row['PID'] . '</td>';
                                 echo '<td>'. $row['DID'] . '</td>';
@@ -248,16 +240,16 @@
 								echo '<td>'. $row['Response'] . '</td>';
 								echo '<td>'. $row['PRemark'] . '</td>';
 								echo '<td width=250>';
-                                echo '<a class="btn" href="read.php?id='.$row['id'].'">Read</a>';
+                                echo '<a class="btn" href="read.php?PID='.$row['PID'].'">Read</a>';
                                 echo ' ';
-                                echo '<a class="btn btn-success" href="update.php?id='.$row['id'].'">Update</a>';
+                                echo '<a class="btn btn-success" href="update.php?PID='.$row['PID'].'">Update</a>';
                                 echo ' ';
-                                echo '<a class="btn btn-danger" href="delete.php?id='.$row['id'].'">Delete</a>';
+                                echo '<a class="btn btn-danger" href="delete.php?PID='.$row['PID'].'">Delete</a>';
                                 echo '</td>';
 
                                 echo '</tr>';
                        }
-                       Database::disconnect();
+                       
                       ?>
                       </tbody>
                 </table>

@@ -1,3 +1,33 @@
+<?php
+    require("database.php");
+    if(empty($_SESSION['user'])) 
+    {
+        header("Location: index.php");
+        die("Redirecting to index.php"); 
+    }
+
+    $id = null;
+    if ( !empty($_GET['id'])) {
+        $id = $_REQUEST['id'];
+    }
+     
+    if ( null==$id ) {
+        header("Location: PinfoFinacial.php");
+    } else {
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM Projects where id = ?";
+        $sql = "SELECT * FROM Donor where id = ?"; 
+        $sql = "SELECT * FROM Contract where id = ?";
+        $sql = "SELECT * FROM StagesFin where id = ?";
+        $sql = "SELECT * FROM Program where id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($id));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,44 +46,13 @@
 
     <!-- Default CSS -->
     <link href="css/default.css" rel="stylesheet">
-	<!--- admin CSS--->
+	<!--- admin CSS-->
     <link href="css/admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS 
-    <link href="css/plugins/morris.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<?php
-    require 'database.php';
-    $id = null;
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
-    }
-     
-    if ( null==$id ) {
-        header("Location: PinfoFinacial.php");
-    } else {
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM Projects where id = ?";
-		$sql = "SELECT * FROM Donor where id = ?"; 
-		$sql = "SELECT * FROM Contract where id = ?";
-		$sql = "SELECT * FROM StagesFin where id = ?";
-		$sql = "SELECT * FROM Program where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
-        $data = $q->fetch(PDO::FETCH_ASSOC);
-        Database::disconnect();
-    }
-?>
 
 </head>
 
@@ -82,8 +81,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                       <!-------for use profile pic---- <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> ---->
+                                       <!---for use profile pic- <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>CEO</strong>
                                         </h5>
@@ -97,8 +96,8 @@
                             <a href="#">
                                 <div class="media">
                                     <span class="pull-left">
-                                        <!------- for use profile pic----<img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span> --->
+                                        <!--- for use profile pic-<img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Donor</strong>
                                         </h5>
@@ -111,9 +110,9 @@
                         <li class="message-preview">
                             <a href="#">
                                 <div class="media">
-                                    <!-- If use user pic-------- <span class="pull-left">
+                                    <!-- If use user pic- <span class="pull-left">
                                         <img class="media-object" src="#" alt="">
-                                    </span> --->
+                                    </span> -->
                                     <div class="media-body">
                                         <h5 class="media-heading"><strong>Finacial manager</strong>
                                         </h5>
@@ -194,7 +193,7 @@
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-fw fa-wrench"></i> Projects</a>
-                    </li> --->
+                    </li> -->
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -206,9 +205,9 @@
                             </li>
                         </ul>
                     </li>
-                   <!------ <li>
+                   <!--- <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> ----->
+                    </li> -->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -294,12 +293,12 @@
     
                             </div>
                         </div>
-                    </div> <!-----/.col--->
+                    </div> <!---/.col-->
                     
                     <div class="col-lg-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Contract & Program Info.</h3>
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i>Contract | Program Info.</h3>
                             </div>
                             <div class="panel-body">
                                  <div class="container">
@@ -379,8 +378,7 @@
                   </thead>
                   <tbody>
                   <?php
-                   include 'database.php';
-                   $pdo = Database::connect();
+                   
                    $sql = 'SELECT * FROM ProStages ORDER BY id DESC';
                    foreach ($pdo->query($sql) as $row) {
                             echo '<tr>';
@@ -397,14 +395,14 @@
                             echo '</td>';
                             echo '</tr>';
                    }
-                   Database::disconnect();
+                   
                   ?>
                   </tbody>
             </table>
-                            </div><!----/.body--->
-                         </div><!----/.panel----->
-                </div><!--------/.col--->
-                </div><!----/.row--->
+                            </div><!---/.body-->
+                         </div><!---/.panel-->
+                </div><!---/.col-->
+                </div><!---/.row-->
 
 				
             </div>
