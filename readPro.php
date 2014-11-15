@@ -185,15 +185,7 @@
                     <li>
                         <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
                     </li>
-                    <!---<li>
-                        <a href="#"><i class="fa fa-fw fa-edit"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-wrench"></i> Projects</a>
-                    </li> -->
+                    
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
@@ -205,9 +197,7 @@
                             </li>
                         </ul>
                     </li>
-                   <!--- <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> -->
+                   
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -413,6 +403,13 @@
 
     </div>
     <!-- /#wrapper -->
+
+
+    <footer class="footercss">
+      <div class="container">
+      </i><p class="tx"><i class="fa fa-cubes"></i> TeamV3 &copy; 2014</p>
+      </div>
+    </footer> <!--/.footer-->
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>

@@ -258,9 +258,7 @@
                             </li>
                         </ul>
                     </li>
-                   <!--- <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> -->
+                   
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -391,6 +389,12 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <footer class="footercss">
+      <div class="container">
+      </i><p class="tx"><i class="fa fa-cubes"></i> TeamV3 &copy; 2014</p>
+      </div>
+    </footer> <!--/.footer-->
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>

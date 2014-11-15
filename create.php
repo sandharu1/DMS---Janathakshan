@@ -358,6 +358,11 @@
 
     </div>
     <!-- /#wrapper -->
+    <footer class="footercss">
+      <div class="container">
+      </i><p class="tx"><i class="fa fa-cubes"></i> TeamV3 &copy; 2014</p>
+      </div>
+    </footer> <!--/.footer-->
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
