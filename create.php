@@ -10,19 +10,21 @@
     if ( !empty($_POST)) {
         // keep track validation errors of projects table
         $PIDError = null;
+        $DIDError = null;
         $PNameError = null;
-        $StatusError = null;
+        $PStatusError = null;
         $ResponseError = null;
-		$RemarkError = null;
+		$PRemarkError = null;
 		$TotFinacialError = null;
 		$PDateError = null;
 		
         // keep track post values of projects table
         $PID = $_POST['PID'];
+        $DID = $_POST['DID'];
         $PName = $_POST['PName'];
-        $Status = $_POST['Status'];
+        $PStatus = $_POST['PStatus'];
         $Response = $_POST['Response'];
-		$Remark = $_POST['Remark'];
+		$PRemark = $_POST['PRemark'];
 		$TotFinacial = $_POST['TotFinacial'];
 		$PDate = $_POST['PDate'];
 		
@@ -32,13 +34,18 @@
             $PIDError = 'Enter Project ID';
             $valid = false;
         }
-         
+        
+         if (empty($DID)) {
+            $DIDError = 'Enter Donor ID';
+            $valid = false;
+        }
+
         if (empty($PName)) {
             $PNameError = 'Enter Project Name';
             $valid = false;
         }
 		
-		if ( empty($Status)) {
+		if ( empty($PStatus)) {
             $StatusError = 'Enter Project Status';
             $valid = false;
         }
@@ -47,8 +54,8 @@
             $ResponseError = 'Enter Project Responsor';
             $valid = false;
         }
-		 if (empty($Remark)) {
-            $RemarkError = 'Enter Project Responsor';
+		 if (empty($PRemark)) {
+            $PRemarkError = 'Enter Project Responsor';
             $valid = false;
         }
         if (empty($TotFinacial)) {
@@ -64,9 +71,9 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO projects (PID,PName,Status,Response,Remark,TotFinacial, PDate) values(?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO projects (PID,DID,PName,PStatus,Response,PRemark,TotFinacial,PDate) values (?, ?, ?, ?, ?, ?, ?, ?)";
             $q = $db->prepare($sql);
-            $q->execute(array($PID,$PName,$Status,$Response,$Remark,$TotFinacial,$PDate));
+            $q->execute(array($PID,$DID,$PName,$PStatus,$Response,$PRemark,$TotFinacial,$PDate));
             
             header("Location: projectInfo.php");
         }
@@ -96,6 +103,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+     <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
     
 
@@ -115,7 +124,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -200,7 +209,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         
                         <li class="divider"></li>
@@ -234,7 +243,7 @@
                             </li>
                         </ul>
                     </li>
-                  
+                  <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -282,6 +291,15 @@
                             <?php endif; ?>
                         </div>
                       </div>
+                      <div class="control-group <?php echo !empty($DIDError)?'error':'';?>">
+                        <label class="control-label">Donor ID</label>
+                        <div class="controls">
+                            <input name="DID" type="text"  placeholder="Donor ID" value="<?php echo !empty($DID)?$DID:'';?>">
+                            <?php if (!empty($DIDError)): ?>
+                                <span class="help-inline"><?php echo $DIDError;?></span>
+                            <?php endif; ?>
+                        </div>
+                      </div>
                       <div class="control-group <?php echo !empty($PNameError)?'error':'';?>">
                         <label class="control-label">Project Name</label>
                         <div class="controls">
@@ -291,12 +309,12 @@
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($StatusError)?'error':'';?>">
+                      <div class="control-group <?php echo !empty($PStatusError)?'error':'';?>">
                         <label class="control-label">Project Status</label>
                         <div class="controls">
-                            <input name="Status" type="text"  placeholder="Project Status" value="<?php echo !empty($Status)?$Status:'';?>">
-                            <?php if (!empty($StatusError)): ?>
-                                <span class="help-inline"><?php echo $StatusError;?></span>
+                            <input name="PStatus" type="text"  placeholder="Project Status" value="<?php echo !empty($PStatus)?$PStatus:'';?>">
+                            <?php if (!empty($PStatusError)): ?>
+                                <span class="help-inline"><?php echo $PStatusError;?></span>
                             <?php endif;?>
                         </div>
                       </div>
@@ -309,12 +327,12 @@
                             <?php endif;?>
                         </div>
                       </div>
-                       <div class="control-group <?php echo !empty($RemarkError)?'error':'';?>">
+                       <div class="control-group <?php echo !empty($PRemarkError)?'error':'';?>">
                         <label class="control-label">Project Remarks</label>
                         <div class="controls">
-                            <input name="Remark" type="text"  placeholder="Project Remarks" value="<?php echo !empty($Remark)?$Remark:'';?>">
-                            <?php if (!empty($RemarkError)): ?>
-                                <span class="help-inline"><?php echo $RemarkError;?></span>
+                            <input name="PRemark" type="text"  placeholder="Project Remarks" value="<?php echo !empty($PRemark)?$PRemark:'';?>">
+                            <?php if (!empty($PRemarkError)): ?>
+                                <span class="help-inline"><?php echo $PRemarkError;?></span>
                             <?php endif;?>
                         </div>
                       </div>

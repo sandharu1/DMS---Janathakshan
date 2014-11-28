@@ -28,7 +28,7 @@
                         $response = 'Invalid file extension.';
                     }
                     //validate file size
-                    if ( $size > 10 ) {
+                    if ( $size > 1000000 ) {
                         $valid = false;
                         $response = 'File size is exceeding maximum allowed size.';
                     }
@@ -36,7 +36,7 @@
                     if ($valid) {
                         $targetPath =  dirname( __FILE__ ) . DIRECTORY_SEPARATOR. 'uploads' . DIRECTORY_SEPARATOR. $name;
                         move_uploaded_file($tmpName,$targetPath);
-                        header( 'Location: index.php' ) ;
+                        header( 'Location: read.php' ) ;
                         exit;
                     }
                     break;

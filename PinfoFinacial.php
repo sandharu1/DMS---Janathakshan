@@ -30,6 +30,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+     <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
 
 </head>
@@ -56,7 +58,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -141,7 +143,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         
                         <li class="divider"></li>
@@ -158,24 +160,24 @@
                         <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
-                        <a href="PinfoFinacial.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="projectInfo.php"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
                     </li>
                     <li>
-                        <a href="projectInfo.php"><i class="fa fa-fw fa-table"></i> Mails</a>
+                        <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
                     </li>
                     
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="PinfoFinacial.php">Program</a>
+                                <a href="PinfoProgram.php">Program</a>
                             </li>
                             <li class="active">
-                                <a href="PinfoProgram.php">Finacial</a>
+                                <a href="PinfoFinacial.php">Finacial</a>
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -189,11 +191,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Projects <small>Statistics Overview</small>
+                            Financial <small>Statistics Overview</small>
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Projects
+                                <i class="fa fa-dashboard"></i> Financial Status
                             </li>
                         </ol>
                     </div>
@@ -225,7 +227,9 @@
                       <tbody>
                       <?php
                        
-                       $sql = 'SELECT * FROM projects, donor, contract ORDER BY id DESC';
+                       $sql = 'SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID 
+                                        INNER JOIN contract ON projects.PID = contract.PID
+                                        INNER JOIN financial ON contract.FinID = financial.FinID';
                        foreach ($db->query($sql) as $row) {
                                 echo '<tr>';
                                 echo '<td>'. $row['PID'] . '</td>';
@@ -233,9 +237,9 @@
                                 echo '<td>'. $row['PName'] . '</td>';
 								echo '<td>'. $row['ConID'] . '</td>';
 								echo '<td>'. $row['FinID'] . '</td>';
-								echo '<td>'. $row['Remark'] . '</td>'; 
+								echo '<td>'. $row['PRemark'] . '</td>'; 
 								echo '<td width=50>';
-                                echo '<a class="btn" href="readFin.php?id='.$row['id'].'">Read</a>';
+                                echo '<a class="btn" href="readFin.php?PID='.$row['PID'].'">Read</a>';
                                 echo '</td>';
 
                                 echo '</tr>';

@@ -10,6 +10,7 @@
  
     if ( !empty($_POST)) {
         // keep track validation errors
+        $ProIDError = null;
         $PStageError = null;
         $PSStatusError = null;
         $ProStartDateError = null;
@@ -18,7 +19,8 @@
 		$PSRemarkError = null;
          
         // keep track post values
-        $PStage = $_POST['FStage'];
+        $ProID = $_POST['ProID'];
+        $PStage = $_POST['PStage'];
         $PSStatus = $_POST['PSStatus'];
         $ProStartDate = $_POST['ProStartDate'];
         $ProEndDate = $_POST['ProEndDate'];
@@ -27,6 +29,11 @@
 		
         // validate input
          $valid = true;
+         if (empty($ProID)) {
+            $ProIDError = 'Enter ProID';
+            $valid = false;
+        }
+         
         if (empty($PStage)) {
             $PStageError = 'Enter Stage';
             $valid = false;
@@ -57,12 +64,12 @@
 				
         // insert data
         if ($valid) {
-            $pdo = Database::connect();
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO ProStages (PStage,PSStatus,ProStartDate,ProEndDate,ProDueDate,PSRemark) values(?, ?, ?, ?, ?, ?)";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
-            Database::disconnect();
+            
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "INSERT INTO ProStages (ProID,PStage,PSStatus,ProStartDate,ProEndDate,ProDueDate,PSRemark) values(?, ?, ?, ?, ?, ?, ?)";
+            $q = $db->prepare($sql);
+            $q->execute(array($ProID,$PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
+            
             header("Location: readPro.php");
         }
     }
@@ -91,6 +98,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+     <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
    
 
@@ -111,7 +120,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -196,7 +205,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         
                         <li class="divider"></li>
@@ -230,7 +239,7 @@
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -267,6 +276,15 @@
                                
              
                     <form class="form-horizontal" action="createProgram.php" method="post">
+                      <div class="control-group <?php echo !empty($ProID)?'error':'';?>">
+                        <label class="control-label">Program ID</label>
+                        <div class="controls">
+                            <input name="ProID" type="text"  placeholder="Program Stage" value="<?php echo !empty($ProID)?$ProID:'';?>">
+                            <?php if (!empty($ProIDError)): ?>
+                                <span class="help-inline"><?php echo $ProIDError;?></span>
+                            <?php endif; ?>
+                        </div>
+                      </div>
                       <div class="control-group <?php echo !empty($PStageError)?'error':'';?>">
                         <label class="control-label">Program Stage</label>
                         <div class="controls">

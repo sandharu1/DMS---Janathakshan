@@ -32,6 +32,9 @@
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
+
 
 </head>
 
@@ -49,7 +52,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -134,7 +137,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                        
                         <li class="divider"></li>
@@ -169,7 +172,7 @@
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -187,7 +190,7 @@
                         </h1>
                         <ol class="breadcrumb">
                             <li class="active">
-                                <i class="fa fa-dashboard"></i> Projects
+                                <i class="fa fa-dashboard"></i> Document Monitoring System
                             </li>
                         </ol>
                     </div>
@@ -220,7 +223,7 @@
                       </thead>
                       <tbody>
                       <?php
-                       $sql = "SELECT * FROM projects INNER JOIN donor ON projects.PID = donor.PID";
+                       $sql = "SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID";
                        foreach ($db->query($sql) as $row) {
                                 echo '<tr>';
                                 echo '<td>'. $row['PID'] . '</td>';

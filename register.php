@@ -105,6 +105,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+     <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
 </head>
 
@@ -122,7 +124,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="index.php  ?>"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
           <ul class="nav navbar-right top-nav">
@@ -160,7 +162,7 @@
                             </li>
                         </ul>
                     </li>
-                 
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -174,7 +176,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Wellcome to JANTHAKSHAN(GTE)Ltd <small>Documentory Management System</small>
+                            Wellcome to JANATHAKSHAN(GTE)Ltd <small>Document Monitoring System</small>
                         </h1>
                        
                     </div>

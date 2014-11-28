@@ -17,7 +17,13 @@
         
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-		$sql = "SELECT * FROM projects INNER JOIN donor ON projects.PID = donor.PID where PID = ?"; 
+		$sql = "SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID 
+                                        INNER JOIN contract ON projects.PID = contract.PID
+                                        INNER JOIN financial ON contract.FinID = financial.FinID 
+                                        INNER JOIN finstages ON financial.FinID = finstages.FinID
+                                        INNER JOIN program ON contract.ProID = program.ProID 
+                                        INNER JOIN prostages ON program.ProID = prostages.ProID
+                                        WHERE projects.PID = ?";
 		
 		
         $q = $db->prepare($sql);
@@ -51,6 +57,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+     <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
  
 
@@ -71,7 +79,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -156,7 +164,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       
                         <li class="divider"></li>
@@ -191,7 +199,7 @@
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -275,7 +283,7 @@
                         <label class="control-label">Project Remarks: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['PRemarks'];?>
+                                <?php echo $data['PRemark'];?>
                             </label>
                         </div>
                       </div>
@@ -425,7 +433,7 @@
                         <label class="control-label">Finacial ID: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['DID'];?>
+                                <?php echo $data['FinID'];?>
                             </label>
                         </div>
                       </div>
@@ -454,7 +462,7 @@
                       <th>Fin. Stage</th>
                       <th>Stage Status</th>
                       <th>Transaction ID</th>
-                      <th>Transaction Date</th>
+                      <th>Transaction Date</th> 
                       <th>Tra. Due Date</th>
                       <th>Remarks</th>
                     </tr>
@@ -463,18 +471,21 @@
                   <?php
                    
                    
-                   $sql = 'SELECT * FROM FinStages ORDER BY PID DESC';
-                   foreach ($pdo->query($sql) as $row) {
+                   
+                   $sql = "SELECT * FROM finstages ORDER BY FinID";
+                    
+                   foreach ($db->query($sql) as $row){
+                            
                             echo '<tr>';
-                            echo '<td>'. $row['FStage'] . '</td>';
-                            echo '<td>'. $row['FSstatus'] . '</td>';
-                            echo '<td>'. $row['TraID'] . '</td>';
-                            echo '<td>'. $row['TraDate'] . '</td>';
-                            echo '<td>'. $row['TraDueDate'] . '</td>';
+                            echo '<td>'. $data['FStage'] . '</td>';
+                            echo '<td>'. $data['FSStatus'] . '</td>';
+                            echo '<td>'. $data['TraID'] . '</td>';
+                            echo '<td>'. $data['TraDate'] . '</td>';
+                            echo '<td>'. $data['TraDueDate'] . '</td>';
 							echo '<td>'. $row['FSRemark'] . '</td>';
                             echo '</tr>';
-                   }
                    
+                   }
                   ?>
                   </tbody>
             </table>
@@ -500,7 +511,7 @@
                         <label class="control-label">Program ID: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['DID'];?>
+                                <?php echo $data['ProID'];?>
                             </label>
                         </div>
                       </div>
@@ -537,8 +548,8 @@
                   <tbody>
                   <?php
                    
-                   $sql = 'SELECT * FROM PStages ORDER BY PID DESC';
-                   foreach ($pdo->query($sql) as $row) {
+                   $sql = "SELECT * FROM prostages ORDER BY ProID";
+                   foreach ($db->query($sql) as $row) {
                             echo '<tr>';
                             echo '<td>'. $row['PStage'] . '</td>';
                             echo '<td>'. $row['PSStatus'] . '</td>';

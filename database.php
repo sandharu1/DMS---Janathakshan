@@ -18,7 +18,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>DBConnection</title>
+<title>DocMonSys - Janathakshan</title>
 </head>
 
 

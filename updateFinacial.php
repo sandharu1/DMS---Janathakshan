@@ -6,12 +6,12 @@
         die("Redirecting to index.php"); 
     }
  
-    $id = null;
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
+    $FinID = null;
+    if ( !empty($_GET['FinID'])) {
+        $FinID = $_REQUEST['FinID'];
     }
      
-    if ( null==$id ) {
+    if ( null==$FinID ) {
         header("Location: readFin.php");
     }
      
@@ -66,19 +66,19 @@
         // update data
         if ($valid) {
             
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE projects  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE id = ?";
-            $q = $pdo->prepare($sql);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "UPDATE financial  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE FinID = ?";
+            $q = $db->prepare($sql);
             $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark));
             
             header("Location: readFin.php");
         }
     } else {
         
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM FinStages where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM finstages where FinID = ?";
+        $q = $db->prepare($sql);
+        $q->execute(array($FinID));
         $data = $q->fetch(PDO::FETCH_ASSOC);
         $FStage = $data['FStage'];
         $FSStatus = $data['FSStatus'];
@@ -116,6 +116,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css">
 
 
 </head>
@@ -134,7 +136,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -219,7 +221,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
             
                         <li class="divider"></li>
@@ -253,7 +255,7 @@
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -292,7 +294,7 @@
                 <div class="span10 offset1">
                 
              
-                    <form class="form-horizontal" action="updateFinacial.php?id=<?php echo $id?>" method="post">
+                    <form class="form-horizontal" action="updateFinacial.php?FinID=<?php echo $FinID?>" method="post">
                       <div class="control-group <?php echo !empty($FStageError)?'error':'';?>">
                         <label class="control-label">Finacial Stage</label>
                         <div class="controls">

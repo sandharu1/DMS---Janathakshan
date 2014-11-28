@@ -6,17 +6,18 @@
         die("Redirecting to index.php"); 
     }
  
-    $id = null;
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
+    $ProID = null;
+    if ( !empty($_GET['ProID'])) {
+        $ProID = $_REQUEST['ProID'];
     }
      
-    if ( null==$id ) {
+    if ( null==$ProID ) {
         header("Location: readPro.php");
     }
      
     if ( !empty($_POST)) {
         // keep track validation errors
+        $ProIDError = null;
         $PStageError = null;
         $PSStatusError = null;
         $ProStartDateError = null;
@@ -25,7 +26,8 @@
         $PSRemarkError = null;
          
         // keep track post values
-        $PStage = $_POST['FStage'];
+        $ProID = $_POST['ProID'];
+        $PStage = $_POST['PStage'];
         $PSStatus = $_POST['PSStatus'];
         $ProStartDate = $_POST['ProStartDate'];
         $ProEndDate = $_POST['ProEndDate'];
@@ -34,6 +36,10 @@
          
         // validate input
          $valid = true;
+        if (empty($ProID)) {
+            $ProIDError = 'Enter Program ID';
+            $valid = false;
+        }
         if (empty($PStage)) {
             $PStageError = 'Enter Stage';
             $valid = false;
@@ -67,19 +73,20 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE ProStages set PStage = ?, PSStatus = ?, ProStartDate =?, ProEndDate =?, ProDueDate =?, PSRemak =? WHERE id = ?";
-            $q = $pdo->prepare($sql);
-            $q->execute(array($PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
+            $sql = "UPDATE prostages set ProID = ?, PStage = ?, PSStatus = ?, ProStartDate =?, ProEndDate =?, ProDueDate =?, PSRemak =? WHERE ProID = ?";
+            $q = $db->prepare($sql);
+            $q->execute(array($ProID,$PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
             
             header("Location: readPro.php");
         }
     } else {
         
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM ProStages where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
+        $sql = "SELECT * FROM prostages where ProID = ?";
+        $q = $db->prepare($sql);
+        $q->execute(array($ProID));
         $data = $q->fetch(PDO::FETCH_ASSOC);
+        $ProID = $data['ProID'];
         $PStage = $data['PStage'];
         $PSStatus = $data['PSStatus'];
         $ProStartDate = $data['ProStartDate'];
@@ -115,6 +122,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css">
 
 
 </head>
@@ -133,7 +142,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="adminDboard.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="adminDboard.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -218,20 +227,12 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                        </li>
+                        
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="logout.phph"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -260,7 +261,7 @@
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -299,7 +300,16 @@
                 <div class="span10 offset1">
                 
              
-                    <form class="form-horizontal" action="updateProgram.php?id=<?php echo $id?>" method="post">
+                    <form class="form-horizontal" action="updateProgram.php?ProID=<?php echo $ProID?>" method="post">
+                      <div class="control-group <?php echo !empty($ProIDError)?'error':'';?>">
+                        <label class="control-label">Program ProID</label>
+                        <div class="controls">
+                            <input name="ProID" type="text"  placeholder="Program ProID" value="<?php echo !empty($ProID)?$ProID:'';?>">
+                            <?php if (!empty($ProIDError)): ?>
+                                <span class="help-inline"><?php echo $ProIDError;?></span>
+                            <?php endif; ?>
+                        </div>
+                      </div>
                       <div class="control-group <?php echo !empty($PStageError)?'error':'';?>">
                         <label class="control-label">Program Stage</label>
                         <div class="controls">

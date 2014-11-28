@@ -6,23 +6,22 @@
         die("Redirecting to index.php"); 
     }
 
-    $id = null;
-    if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
+    $PID = null;
+    if ( !empty($_GET['PID'])) {
+        $PID = $_REQUEST['PID'];
     }
      
-    if ( null==$id ) {
+    if ( null==$PID ) {
         header("Location: PinfoFinacial.php");
     } else {
-        $pdo = Database::connect();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM Projects where id = ?";
-        $sql = "SELECT * FROM Donor where id = ?"; 
-        $sql = "SELECT * FROM Contract where id = ?";
-        $sql = "SELECT * FROM StagesFin where id = ?";
-        $sql = "SELECT * FROM Program where id = ?";
-        $q = $pdo->prepare($sql);
-        $q->execute(array($id));
+        
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID 
+                                        INNER JOIN contract ON projects.PID = contract.PID
+                                        INNER JOIN program ON contract.ProID = program.ProID 
+                                        INNER JOIN prostages ON program.ProID = prostages.ProID WHERE projects.PID = ?";
+        $q = $db->prepare($sql);
+        $q->execute(array($PID));
         $data = $q->fetch(PDO::FETCH_ASSOC);
         
     }
@@ -52,6 +51,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css">
 
 
 </head>
@@ -70,7 +71,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="index.php"><stromg>Janathakshan(GTE) Ltd</stromg> - <small>DocMonSys </small></a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -155,7 +156,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Fin.Manager <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
@@ -197,7 +198,7 @@
                             </li>
                         </ul>
                     </li>
-                   
+                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -265,7 +266,7 @@
                         <label class="control-label">Project Status: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['Status'];?>
+                                <?php echo $data['PStatus'];?>
                             </label>
                         </div>
                       </div>
@@ -324,7 +325,7 @@
                         <label class="control-label">Remarks: </label>
                         <div class="controls">
                             <label class="checkbox">
-                                <?php echo $data['Remarks'];?>
+                                <?php echo $data['PRemark'];?>
                             </label>
                         </div>
                       </div>
@@ -369,8 +370,8 @@
                   <tbody>
                   <?php
                    
-                   $sql = 'SELECT * FROM ProStages ORDER BY id DESC';
-                   foreach ($pdo->query($sql) as $row) {
+                   $sql = 'SELECT * FROM prostages ORDER BY ProID';
+                   foreach ($db->query($sql) as $row) {
                             echo '<tr>';
                             echo '<td>'. $row['PStage'] . '</td>';
                             echo '<td>'. $row['PSStatus'] . '</td>';
@@ -379,9 +380,9 @@
                             echo '<td>'. $row['ProDueDate'] . '</td>';
 							echo '<td>'. $row['PSRemark'] . '</td>';
 							echo '<td width=250>';
-                            echo '<a class="btn btn-success" href="updateProgram.php?id='.$row['id'].'">Update</a>';
+                            echo '<a class="btn btn-success" href="updateProgram.php?ProID='.$row['ProID'].'">Update</a>';
                             echo ' ';
-                            echo '<a class="btn btn-danger" href="deleteProgram.php?id='.$row['id'].'">Delete</a>';
+                            echo '<a class="btn btn-danger" href="deleteProgram.php?ProID='.$row['ProID'].'">Delete</a>';
                             echo '</td>';
                             echo '</tr>';
                    }

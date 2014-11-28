@@ -72,6 +72,8 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+     <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
 
 </head>
@@ -90,20 +92,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">Janathakshan(GTE) Ltd.</a>
+                <a class="navbar-brand" href="index.php">Janathakshan(GTE) Ltd - DocMonSys</a>
             </div>
             <!-- Top Menu Items -->
           <ul class="nav navbar-right top-nav">
              
                 
                 <li>
-                    <a href="register.php"><i class="fa fa-sign-in"></i> Register</a>
+                    <a href="register.php"><i class="fa fa-sign-in faa-horizontal animated"></i> Register</a>
                   
                     
                 </li>
                 
                 <li class="dropdown">
-                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Log In <b class="caret"></b></a>
+                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> Log In <b class="caret"></b></a>
                      
                              <div class="dropdown-menu" style="padding: 30px; padding-bottom: 15px;">
                 <form action="index.php" method="post"> 
@@ -156,9 +158,12 @@
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">
-                            Wellcome to JANTHAKSHAN(GTE)Ltd <small>Documentory Management System</small>
-                        </h1>
+                      <!--  <h1 class="page-header">
+                            
+                        </h1> -->
+                        
+                        <center><img src="Images/bc.png" class="img-responsive"></center>
+                        
                        
                     </div>
                 </div>
