@@ -19,6 +19,7 @@
 <head>
 <meta charset="utf-8">
 <title>DocMonSys - Janathakshan</title>
+<link rel="shortcut icon" type="image/x-icon" href="Images/Favicon.ico">
 </head>
 
 

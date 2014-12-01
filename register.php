@@ -104,7 +104,7 @@
     
 
     <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
      <!-- font awesome animation-->
     <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
@@ -142,13 +142,13 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="#"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
+                        <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-bar-chart-o"></i> Projects</a>
+                        <a href="#"><i class="fa fa-fw fa-building-o"></i> Projects</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-table"></i> Mails</a>
+                        <a href="#"><i class="fa fa-fw fa-users"></i> Donors</a>
                     </li>
                     
                     <li>

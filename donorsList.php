@@ -5,26 +5,6 @@
         header("Location: index.php");
         die("Redirecting to index.php"); 
     }
-    $ProID = 0;
-     
-    if ( !empty($_GET['ProID'])) {
-        $ProID = $_REQUEST['ProID'];
-    }
-     
-    if ( !empty($_POST)) {
-        // keep track post values
-        $ProID = $_POST['ProID'];
-         
-        // delete data
-        
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "DELETE FROM ProStages WHERE ProID = ?";
-        $q = $db->prepare($sql);
-        $q->execute(array($ProID));
-        
-        header("Location: readPro.php");
-         
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>CreateProject - Janathakshan - DMS</title>
+    <title>Janathakshan - DMS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -47,11 +27,13 @@
 	<!--- admin CSS-->
     <link href="css/admin.css" rel="stylesheet">
 
+
     <!-- Custom Fonts -->
     <link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-     <!-- font awesome animation-->
-    <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 
 
+    <!-- font awesome animation-->
+    <link rel="stylesheet" href="css/font-awesome-animation.min.css"
+    
 
 </head>
 
@@ -73,9 +55,9 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                
-                    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
+                               
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-user faa-flash animated"></i> <?php echo htmlentities($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         
                         <li class="divider"></li>
@@ -85,23 +67,24 @@
                     </ul>
                 </li>
             </ul>
+            
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                     <li>
-                        <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <li>
+                        <a href="adminDboard.php"><i class="fa fa-fw fa-dashboard"></i>	Dashboard</a>
                     </li>
                     <li>
                         <a href="projectInfo.php"><i class="fa fa-fw fa-building-o"></i> Projects</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="donorsList.php"><i class="fa fa-fw fa-users"></i> Donors</a>
                     </li>
                     
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Contracts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
-                            <li class="active">
+                            <li>
                                 <a href="PinfoProgram.php">Program</a>
                             </li>
                             <li>
@@ -109,8 +92,9 @@
                             </li>
                         </ul>
                     </li>
-                   <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
+                 <li> <img class="img-responsive" src="Images/logo-default.png"> </li>
                 </ul>
+                
             </div>
             <!-- /.navbar-collapse -->
         </nav>
@@ -123,7 +107,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Program <small>Statistics Overview</small>
+                           <i class="fa fa-users"></i> Donors <small>list</small>
                         </h1>
                         
                     </div>
@@ -131,42 +115,52 @@
                 <!-- /.row -->
 
                 
-
+             
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-trash fa-fw"></i>Delete a Program Stage</h3>
+                                <h3 class="panel-title"><i class="fa fa-list fa-fw"></i> Basic Info</h3>
                             </div>
                             <div class="panel-body">
-                           <div class="container">
-     
-                <div class="span10 offset1">
-                    
-                     
-                    <form class="form-horizontal" action="deleteProgram.php" method="post">
-                      <input type="hidden" name="ProID" value="<?php echo $ProID;?>"/>
-                      <p class="alert alert-error">Are you sure to delete ?</p>
-                      <div class="form-actions">
-                          <button type="submit" class="btn btn-danger">Yes</button>
-                          <a class="btn" href="readPro.php">No</a>
+                                 <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Donor ID</th>
+                      <th>Donor Name</th>
+                      <th>Email</th>
+                      <th>Address</th>
+                      <th>Donor Remark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <?php
+                   
+                   $sql = "SELECT * FROM donor ORDER BY DID DESC";
+                   foreach($db->query($sql) as $row) { ?>
+
+                   <tr>
+                        <td><?= $row['DID'];  ?></td>
+                        <td><?= $row['DName'];  ?></td>
+                        <td><?= $row['DEmail'];  ?></td>
+                        <td><?= $row['DAddress'];  ?></td>
+                        <td><?= $row['DRemark'];  ?></td>
+                   </tr>
+                            
+                 <?php } ?>
+
+
+
+                  </tbody>
+            </table>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                 
-    </div> <!-- /container -->
-
-
-             
-                    
-
-                            </div> <!---/.body-->
-                        </div> 
-                    </div><!---/.col-->
+                    </div>
                 </div>
                 <!-- /.row -->
 
-          		
+          		<div class="row">
+                </div><!---/.row-->
 
             </div>
             <!-- /.container-fluid -->
