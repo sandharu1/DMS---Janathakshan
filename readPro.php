@@ -150,7 +150,7 @@
                       <div class="control-group">
                         <label class="control-label">Project ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PID'];?>
                             </label>
                         </div>
@@ -158,7 +158,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Name: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PName'];?>
                             </label>
                         </div>
@@ -166,7 +166,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DID'];?>
                             </label>
                         </div>
@@ -174,7 +174,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Status: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PStatus'];?>
                             </label>
                         </div>
@@ -209,7 +209,7 @@
                       <div class="control-group">
                         <label class="control-label">Contract ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['ConID'];?>
                             </label>
                         </div>
@@ -217,7 +217,7 @@
                       <div class="control-group">
                         <label class="control-label">Program ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['ProID'];?>
                             </label>
                         </div>
@@ -225,7 +225,7 @@
                       <div class="control-group">
                         <label class="control-label">Total Finance: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['TotFinacial'];?>
                             </label>
                         </div>
@@ -233,7 +233,7 @@
                       <div class="control-group">
                         <label class="control-label">Remarks: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PRemark'];?>
                             </label>
                         </div>
@@ -262,7 +262,7 @@
                             </div>
                             <div class="panel-body">
                       <p>
-                    <a href="createProgram.php" class="btn btn-success">Create</a>
+                    <a href="createProgram.php" class="btn btn-info">Create</a>
                 </p>
                             <table class="table table-striped table-bordered">
                               <thead>
@@ -282,14 +282,14 @@
                    $sql = 'SELECT * FROM prostages ORDER BY ProID';
                    foreach ($db->query($sql) as $row) {
                             echo '<tr>';
-                            echo '<td>'. $row['PStage'] . '</td>';
-                            echo '<td>'. $row['PSStatus'] . '</td>';
-                            echo '<td>'. $row['ProStartDate'] . '</td>';
-                            echo '<td>'. $row['ProEndDate'] . '</td>';
-                            echo '<td>'. $row['ProDueDate'] . '</td>';
-							echo '<td>'. $row['PSRemark'] . '</td>';
+                            echo '<td class="tablecss">'. $row['PStage'] . '</td>';
+                            echo '<td class="tablecss">'. $row['PSStatus'] . '</td>';
+                            echo '<td class="tablecss">'. $row['ProStartDate'] . '</td>';
+                            echo '<td class="tablecss">'. $row['ProEndDate'] . '</td>';
+                            echo '<td class="tablecss">'. $row['ProDueDate'] . '</td>';
+							echo '<td class="tablecss">'. $row['PSRemark'] . '</td>';
 							echo '<td width=250>';
-                            echo '<a class="btn btn-success" href="updateProgram.php?ProID='.$row['ProID'].'">Update</a>';
+                            echo '<a class="btn btn-warning" href="updateProgram.php?ProID='.$row['ProID'].'">Update</a>';
                             echo ' ';
                             echo '<a class="btn btn-danger" href="deleteProgram.php?ProID='.$row['ProID'].'">Delete</a>';
                             echo '</td>';

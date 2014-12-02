@@ -2,12 +2,13 @@
 
 <?php
 require("database.php");
-// MySQL pdo code to pull the fields.  pull the dates that are 1 days from expiration. 
+//developed by sandharu1 -TeamV3
+// MySQL pdo code to pull the fields.  pull the dates that are 7 days from expiration. This for program stages.
 $sql = "SELECT alerts.EmailAddress, alerts.FullName, alerts.Title, projects.PID, donor.DID, contract.ConID, program.ProID, prostages.PStage, prostages.ProDueDate, contract.ProID, projects.DID, contract.PID from alerts, projects
 										INNER JOIN donor ON projects.DID = donor.DID 
                                         INNER JOIN contract ON projects.PID = contract.PID
                                         INNER JOIN program ON contract.ProID = program.ProID 
-                                        INNER JOIN prostages ON program.ProID = prostages.ProID WHERE ProDueDate = DATE_ADD(CURDATE(),INTERVAL 1 DAY)";
+                                        INNER JOIN prostages ON program.ProID = prostages.ProID WHERE ProDueDate = DATE_ADD(CURDATE(),INTERVAL 7 DAY)";
 $result = $db->query($sql);
 // Define the variables and columns (loop the array)
 while($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -22,10 +23,10 @@ while($row = $result->fetch(PDO::FETCH_ASSOC)) {
     
 // Mail code to e-mail based on the records pulled from above code.
 $to = "sandharu1@gmail.com, " . $email . " ";
-$subject = "DueDate reminder - " . $pstage . " " ;
+$subject = "DueDate Reminder - " . $pstage . " " ;
 $message = "Hi " .$title . " - ". $fullname .  
-"\n \nThe ". $pstage . " is going to expire on " . $date_exp . "\n \nMore info -\nProject ID -  ". $pid . " \nContract ID -  ". $conid . " \nProgram ID -  ". $proid . "\n \nPlease contact manager for future matters. 
-If you allready complete this stage, plz update info and skip this massege \n \nThank you. \n \n \n *** This is an automatically generated email, please do not reply ***";
+"\n \nThe ". $pstage . " is going to due on " . $date_exp . "\n \n___More info___\nProject ID -  ". $pid . " \nContract ID -  ". $conid . " \nProgram ID -  ". $proid . "\n \nPlease contact manager or any responce person for future matters. 
+If you allready complete this stage, plz update info and skip this massege. \n \nThank you.. \n \n Regrds \nAutoAdmin\nDocMonSys - Janathakshan.\n\n *** This is an automatically generated email, please do not reply ***";
 $from = "auto-admin@janathakshan-dms.comuf.com";
 $headers = "From:" . $from;
 mail($to,$subject,$message,$headers);

@@ -1,4 +1,4 @@
-<?php
+ <?php
 	require("database.php");
     if(empty($_SESSION['user'])) 
     {
@@ -165,7 +165,7 @@
                       <div class="control-group">
                         <label class="control-label">Project ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PID'];?>
                             </label>
                         </div>
@@ -173,7 +173,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Name: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PName'];?>
                             </label>
                         </div>
@@ -181,7 +181,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Date: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PDate'];?>
                             </label>
                         </div>
@@ -189,7 +189,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Status: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PStatus'];?>
                             </label>
                         </div>
@@ -197,7 +197,7 @@
                       <div class="control-group">
                         <label class="control-label">Response people: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['Response'];?>
                             </label>
                         </div>
@@ -205,7 +205,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Remarks: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PRemark'];?>
                             </label>
                         </div>
@@ -236,7 +236,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DID'];?>
                             </label>
                         </div>
@@ -244,7 +244,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor Name: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DName'];?>
                             </label>
                         </div>
@@ -252,7 +252,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor Address: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DAddress'];?>
                             </label>
                         </div>
@@ -260,7 +260,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor Email: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DEmail'];?>
                             </label>
                         </div>
@@ -268,7 +268,7 @@
                       <div class="control-group">
                         <label class="control-label">Contract Approved Date: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['ConAppDate'];?>
                             </label>
                         </div>
@@ -276,7 +276,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor Remarks: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DRemark'];?>
                             </label>
                         </div>
@@ -355,7 +355,7 @@
                       <div class="control-group">
                         <label class="control-label">Finacial ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['FinID'];?>
                             </label>
                         </div>
@@ -363,13 +363,13 @@
                       <div class="control-group">
                         <label class="control-label">Finacial Condition: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['FinCond'];?>
                             </label>
                         </div>
                       </div>
                                        
-                        <div class="form-actions">
+                        <div class="form-actions checkboxread">
                           <a class="btn" href="projectInfo.php">Back</a>
                        </div>
                      
@@ -399,7 +399,7 @@
                     
                    foreach ($db->query($sql) as $row){
                             
-                            echo '<tr>';
+                            echo '<tr class="tablecss">';
                             echo '<td>'. $data['FStage'] . '</td>';
                             echo '<td>'. $data['FSStatus'] . '</td>';
                             echo '<td>'. $data['TraID'] . '</td>';
@@ -433,7 +433,7 @@
                       <div class="control-group">
                         <label class="control-label">Program ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['ProID'];?>
                             </label>
                         </div>
@@ -441,7 +441,7 @@
                       <div class="control-group">
                         <label class="control-label">Program Condition: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['ProCond'];?>
                             </label>
                         </div>
@@ -473,7 +473,7 @@
                    
                    $sql = "SELECT * FROM prostages ORDER BY ProID";
                    foreach ($db->query($sql) as $row) {
-                            echo '<tr>';
+                            echo '<tr class="tablecss">';
                             echo '<td>'. $row['PStage'] . '</td>';
                             echo '<td>'. $row['PSStatus'] . '</td>';
                             echo '<td>'. $row['ProStartDate'] . '</td>';

@@ -129,7 +129,7 @@
                             </div>
                             <div class="panel-body">
                                  <p>
-                    <a href="create.php" class="btn btn-success">Create</a>
+                    <a href="create.php" class="btn btn-info">Create</a>
                 </p>
                 <table class="table table-striped table-bordered">
                       <thead>
@@ -148,16 +148,16 @@
                        $sql = "SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID";
                        foreach ($db->query($sql) as $row) {
                                 echo '<tr>';
-                                echo '<td>'. $row['PID'] . '</td>';
-                                echo '<td>'. $row['DID'] . '</td>';
-                                echo '<td>'. $row['PName'] . '</td>';
-								echo '<td>'. $row['PStatus'] . '</td>';
-								echo '<td>'. $row['Response'] . '</td>';
-								echo '<td>'. $row['PRemark'] . '</td>';
+                                echo '<td class="tablecss">'. $row['PID'] . '</td>';
+                                echo '<td class="tablecss">'. $row['DID'] . '</td>';
+                                echo '<td class="tablecss">'. $row['PName'] . '</td>';
+								echo '<td class="tablecss">'. $row['PStatus'] . '</td>';
+								echo '<td class="tablecss">'. $row['Response'] . '</td>';
+								echo '<td class="tablecss">'. $row['PRemark'] . '</td>';
 								echo '<td width=250>';
-                                echo '<a class="btn" href="read.php?PID='.$row['PID'].'">Read</a>';
+                                echo '<a class="btn btn-success" href="read.php?PID='.$row['PID'].'">Read</a>';
                                 echo ' ';
-                                echo '<a class="btn btn-success" href="update.php?PID='.$row['PID'].'">Update</a>';
+                                echo '<a class="btn btn-warning" href="update.php?PID='.$row['PID'].'">Update</a>';
                                 echo ' ';
                                 echo '<a class="btn btn-danger" href="delete.php?PID='.$row['PID'].'">Delete</a>';
                                 echo '</td>';

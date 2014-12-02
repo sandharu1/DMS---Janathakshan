@@ -151,14 +151,14 @@
                                         INNER JOIN program ON contract.ProID = program.ProID';
                        foreach ($db->query($sql) as $row) {
                                 echo '<tr>';
-                                echo '<td>'. $row['PID'] . '</td>';
-                                echo '<td>'. $row['DID'] . '</td>';
-                                echo '<td>'. $row['PName'] . '</td>';
-								echo '<td>'. $row['ConID'] . '</td>';
-								echo '<td>'. $row['ProID'] . '</td>';
-								echo '<td>'. $row['PRemark'] . '</td>'; 
+                                echo '<td class="tablecss">'. $row['PID'] . '</td>';
+                                echo '<td class="tablecss">'. $row['DID'] . '</td>';
+                                echo '<td class="tablecss">'. $row['PName'] . '</td>';
+								echo '<td class="tablecss">'. $row['ConID'] . '</td>';
+								echo '<td class="tablecss">'. $row['ProID'] . '</td>';
+								echo '<td class="tablecss">'. $row['PRemark'] . '</td>'; 
 								echo '<td width=50>';
-                                echo '<a class="btn" href="readPro.php?PID='.$row['PID'].'">Read</a>';
+                                echo '<a class="btn btn-success" href="readPro.php?PID='.$row['PID'].'">Read</a>';
                                 echo '</td>';
 
                                 echo '</tr>';

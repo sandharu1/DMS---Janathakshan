@@ -1,4 +1,4 @@
-/* Global Styles */
+/* Default  Styles on DocMonSys */
 
 body {
     margin-top: 100px;
@@ -223,3 +223,14 @@ ul.alert-dropdown {
 	padding:10px;
 	text-align:center;
 }
+
+
+.checkboxread{
+	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
+	color:#0C0;
+	}
+	
+.tablecss{
+	color:#00F;
+	font-family:Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	}

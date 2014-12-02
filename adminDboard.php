@@ -238,7 +238,7 @@
                    $sql = "SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID";
                    foreach($db->query($sql) as $row) { ?>
 
-                   <tr>
+                   <tr class="tablecss">
                         <td><?= $row['PID'];  ?></td>
                         <td><?= $row['PName'];  ?></td>
                         <td><?= $row['DName'];  ?></td>

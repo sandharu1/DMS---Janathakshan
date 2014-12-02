@@ -152,7 +152,7 @@
                       <div class="control-group">
                         <label class="control-label">Project ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PID'];?>
                             </label>
                         </div>
@@ -160,7 +160,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Name: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PName'];?>
                             </label>
                         </div>
@@ -168,7 +168,7 @@
                       <div class="control-group">
                         <label class="control-label">Donor ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['DID'];?>
                             </label>
                         </div>
@@ -176,7 +176,7 @@
                       <div class="control-group">
                         <label class="control-label">Project Status: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PStatus'];?>
                             </label>
                         </div>
@@ -211,7 +211,7 @@
                       <div class="control-group">
                         <label class="control-label">Contract ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['ConID'];?>
                             </label>
                         </div>
@@ -219,7 +219,7 @@
                       <div class="control-group">
                         <label class="control-label">Finacial ID: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['FinID'];?>
                             </label>
                         </div>
@@ -227,7 +227,7 @@
                       <div class="control-group">
                         <label class="control-label">Total Finance: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['TotFinacial'];?>
                             </label>
                         </div>
@@ -235,7 +235,7 @@
                       <div class="control-group">
                         <label class="control-label">Remarks: </label>
                         <div class="controls">
-                            <label class="checkbox">
+                            <label class="checkbox checkboxread">
                                 <?php echo $data['PRemark'];?>
                             </label>
                         </div>
@@ -264,7 +264,7 @@
                             </div>
                             <div class="panel-body">
                       <p>
-                    <a href="createFinacial.php" class="btn btn-success">Create</a>
+                    <a href="createFinacial.php" class="btn btn-info">Create</a>
                 </p>
                             <table class="table table-striped table-bordered">
                               <thead>
@@ -284,14 +284,14 @@
                    $sql = 'SELECT * FROM finstages ORDER BY FinID DESC';
                    foreach ($db->query($sql) as $row) {
                             echo '<tr>';
-                            echo '<td>'. $row['FStage'] . '</td>';
-                            echo '<td>'. $row['FSStatus'] . '</td>';
-                            echo '<td>'. $row['TraID'] . '</td>';
-                            echo '<td>'. $row['TraDate'] . '</td>';
-                            echo '<td>'. $row['TraDueDate'] . '</td>';
-							echo '<td>'. $row['FSRemark'] . '</td>';
+                            echo '<td class="tablecss">'. $row['FStage'] . '</td>';
+                            echo '<td class="tablecss">'. $row['FSStatus'] . '</td>';
+                            echo '<td class="tablecss">'. $row['TraID'] . '</td>';
+                            echo '<td class="tablecss">'. $row['TraDate'] . '</td>';
+                            echo '<td class="tablecss">'. $row['TraDueDate'] . '</td>';
+							echo '<td class="tablecss">'. $row['FSRemark'] . '</td>';
 							echo '<td width=250>';
-                            echo '<a class="btn btn-success" href="updateFinacial.php?FinID='.$row['FinID'].'">Update</a>';
+                            echo '<a class="btn btn-warning" href="updateFinacial.php?FinID='.$row['FinID'].'">Update</a>';
                             echo ' ';
                             echo '<a class="btn btn-danger" href="deleteFinacial.php?FinID='.$row['FinID'].'">Delete</a>';
                             echo '</td>';
