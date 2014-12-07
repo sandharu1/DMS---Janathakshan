@@ -22,20 +22,24 @@
         $DIDError = null;
         $PNameError = null;
         $PStatusError = null;
+        $PDateError = null;
+        $ProposalDueDateError = null;
+        $TotFinacialError = null;
 		$ResponseError = null;
 		$PRemarkError = null;
-		$TotFinacialError = null;
-		$PDateError = null;
          
         // keep track post values
         $PID = $_POST['PID'];
         $DID = $_POST['DID'];
         $PName = $_POST['PName'];
         $PStatus = $_POST['PStatus'];
+        $PDate = $_POST['PDate'];
+        $ProposalDueDate = $_POST['ProposalDueDate'];
+        $TotFinacial = $_POST['TotFinacial'];
 		$Response = $_POST['Response'];
 		$PRemark = $_POST['PRemark'];
-		$TotFinacial = $_POST['TotFinacial'];
-		$PDate = $_POST['PDate'];
+		
+		
          
         // validate input
          $valid = true;
@@ -58,21 +62,26 @@
             $PStatusError = 'Enter Project Status';
             $valid = false;
         }
-         
+        if (empty($PDate)) {
+            $PDateError = 'Enter Project Date';
+            $valid = false;
+        }
+        if (empty($ProposalDueDate)) {
+            $ProposalDueDateError = 'Enter Proposal Due Date';
+            $valid = false;
+        
+        }
         if (empty($Response)) {
             $ResponseError = 'Enter Project Responsor';
             $valid = false;
-        }
-		 if (empty($PRemark)) {
-            $PRemarkError = 'Enter Project Responsor';
-            $valid = false;
+		 
         }
         if (empty($TotFinacial)) {
             $TotFinacialError = 'Enter P. Total Finacial Amount';
             $valid = false;
         }
-		if (empty($PDate)) {
-            $PDateError = 'Enter Project Date';
+		if (empty($PRemark)) {
+            $PRemarkError = 'Enter Project Responsor';
             $valid = false;
         }
          
@@ -80,9 +89,9 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE projects  set PID = ?, DID = ?, PName = ?, PStatus =?, Response =?, PRemark =?, TotFinacial =?, PDate =? WHERE PID = ?";
+            $sql = "UPDATE projects  set PID = ?, DID = ?, PName = ?, PStatus =?, PDate =?, ProposalDueDate =?, TotFinacial =?, Response =?, PRemark =? WHERE PID = ?";
             $q = $db->prepare($sql);
-            $q->execute(array($PID,$DID,$PName,$PStatus,$Response,$PRemark,$TotFinacial,$PDate));
+            $q->execute(array($PID,$DID,$PName,$PStatus,$PDate,$ProposalDueDate,$TotFinacial,$Response,$PRemark));
             
             header("Location: projectInfo.php");
         }
@@ -262,6 +271,33 @@
                             <?php endif;?>
                         </div>
                       </div>
+                      <div class="control-group <?php echo !empty($PDateError)?'error':'';?>">
+                        <label class="control-label">Project Date</label>
+                        <div class="controls">
+                            <input name="PDate" type="text"  placeholder="YYYY-MM-DD" value="<?php echo !empty($PDate)?$PDate:'';?>">
+                            <?php if (!empty($PDateError)): ?>
+                                <span class="help-inline"><?php echo $PDateError;?></span>
+                            <?php endif;?>
+                        </div>
+                      </div>
+                      <div class="control-group <?php echo !empty($ProposalDueDateError)?'error':'';?>">
+                        <label class="control-label">Proposal Due Date</label>
+                        <div class="controls">
+                            <input name="ProposalDueDate" type="text"  placeholder="YYYY-MM-DD" value="<?php echo !empty($ProposalDueDate)?$ProposalDueDate:'';?>">
+                            <?php if (!empty($ProposalDueDateError)): ?>
+                                <span class="help-inline"><?php echo $ProposalDueDateError;?></span>
+                            <?php endif;?>
+                        </div>
+                      </div>
+                      <div class="control-group <?php echo !empty($TotFinacialError)?'error':'';?>">
+                        <label class="control-label">Total Finacial</label>
+                        <div class="controls">
+                            <input name="TotFinacial" type="text"  placeholder="Total Finacial" value="<?php echo !empty($TotFinacial)?$TotFinacial:'';?>">
+                            <?php if (!empty($TotFinacialError)): ?>
+                                <span class="help-inline"><?php echo $TotFinacialError;?></span>
+                            <?php endif;?>
+                        </div>
+                      </div>
                       <div class="control-group <?php echo !empty($ResponseError)?'error':'';?>">
                         <label class="control-label">Project Responsor</label>
                         <div class="controls">
@@ -280,24 +316,8 @@
                             <?php endif;?>
                         </div>
                       </div>
-                      <div class="control-group <?php echo !empty($TotFinacialError)?'error':'';?>">
-                        <label class="control-label">Total Finacial</label>
-                        <div class="controls">
-                            <input name="TotFinacial" type="text"  placeholder="Total Finacial" value="<?php echo !empty($TotFinacial)?$TotFinacial:'';?>">
-                            <?php if (!empty($TotFinacialError)): ?>
-                                <span class="help-inline"><?php echo $TotFinacialError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-                      <div class="control-group <?php echo !empty($PDateError)?'error':'';?>">
-                        <label class="control-label">Project Date</label>
-                        <div class="controls">
-                            <input name="PDate" type="text"  placeholder="Project Date" value="<?php echo !empty($PDate)?$PDate:'';?>">
-                            <?php if (!empty($PDateError)): ?>
-                                <span class="help-inline"><?php echo $PDateError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
+                      
+                      
                       <div class="form-actions">
                           <button type="submit" class="btn btn-success">Update</button>
                           <a class="btn" href="projectInfo.php">Back</a>

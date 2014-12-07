@@ -15,22 +15,23 @@
         header("Location: adminDboard.php");
     } else {
         
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-		$sql = "SELECT * FROM projects INNER JOIN donor ON projects.DID = donor.DID 
-                                        INNER JOIN contract ON projects.PID = contract.PID
-                                        INNER JOIN financial ON contract.FinID = financial.FinID 
-                                        INNER JOIN finstages ON financial.FinID = finstages.FinID
-                                        INNER JOIN program ON contract.ProID = program.ProID 
-                                        INNER JOIN prostages ON program.ProID = prostages.ProID
-                                        WHERE projects.PID = ?";
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         
+		$sql = "SELECT a.PID, a.PName, a.PStatus, a.PDate, a.Response, a.PRemark, b.DID, b.DName, b.DEmail, b.DAddress, b.DRemark, c.ConID, c.ProID, c.FinID, c.ConAppDate, c.ConRemark, d.FinCond, e.ProCond
+		FROM projects a INNER JOIN donor b ON a.DID=b.DID
+						INNER JOIN contract c ON a.PID=c.PID
+						INNER JOIN financial d ON c.FinID=d.FinID
+						INNER JOIN program e ON c.ProID=e.ProID
+                                        WHERE a.PID = ?";
 		
 		
         $q = $db->prepare($sql);
         $q->execute(array($PID));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-       
     }
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -162,15 +163,15 @@
                 <div class="span10 offset1">
                  
                       <div class="form-horizontal" >
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Project ID: </label>
                         <div class="controls">
-                            <label class="checkbox checkboxread">
-                                <?php echo $data['PID'];?>
+                            <label class="checkbox checkboxread ">
+                                <?php echo $data['PID'];?> 
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Project Name: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -178,7 +179,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Project Date: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -186,7 +187,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Project Status: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -194,7 +195,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Response people: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -202,7 +203,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Project Remarks: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -233,15 +234,15 @@
                 <div class="span10 offset1">
                                          
                     <div class="form-horizontal" >
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Donor ID: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
-                                <?php echo $data['DID'];?>
+                                <?php echo $data["DID"];?>
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Donor Name: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -249,7 +250,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Donor Address: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -257,7 +258,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Donor Email: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -265,7 +266,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Contract Approved Date: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -273,7 +274,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Donor Remarks: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -352,7 +353,7 @@
                 <div class="span10 offset1">
                                          
                     <div class="form-horizontal" >
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Finacial ID: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -360,7 +361,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Finacial Condition: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -395,16 +396,16 @@
                    
                    
                    
-                   $sql = "SELECT * FROM finstages ORDER BY FinID";
+                   $sqle = "SELECT * FROM finstages ORDER BY FinID";
                     
-                   foreach ($db->query($sql) as $row){
+                   foreach ($db->query($sqle) as $row){
                             
                             echo '<tr class="tablecss">';
-                            echo '<td>'. $data['FStage'] . '</td>';
-                            echo '<td>'. $data['FSStatus'] . '</td>';
-                            echo '<td>'. $data['TraID'] . '</td>';
-                            echo '<td>'. $data['TraDate'] . '</td>';
-                            echo '<td>'. $data['TraDueDate'] . '</td>';
+                            echo '<td>'. $row['FStage'] . '</td>';
+                            echo '<td>'. $row['FSStatus'] . '</td>';
+                            echo '<td>'. $row['TraID'] . '</td>';
+                            echo '<td>'. $row['TraDate'] . '</td>';
+                            echo '<td>'. $row['TraDueDate'] . '</td>';
 							echo '<td>'. $row['FSRemark'] . '</td>';
                             echo '</tr>';
                    
@@ -430,7 +431,7 @@
                 <div class="span10 offset1">
                                          
                     <div class="form-horizontal" >
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Program ID: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -438,7 +439,7 @@
                             </label>
                         </div>
                       </div>
-                      <div class="control-group">
+                      <div class="form-group">
                         <label class="control-label">Program Condition: </label>
                         <div class="controls">
                             <label class="checkbox checkboxread">
@@ -502,7 +503,7 @@
 
     <footer class="footercss">
       <div class="container">
-      </i><p class="tx"><i class="fa fa-cubes"></i> TeamV3 &copy; 2014</p>
+      <p class="tx"><i class="fa fa-cubes"></i> TeamV3 &copy; 2014</p>
       </div>
     </footer> <!--/.footer-->
 

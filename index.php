@@ -58,7 +58,7 @@
     <meta name="description" content="DocMonSys - Janathakshan by TeamV3">
     <meta name="author" content="sandharu1 - TeamV3">
 
-    <title>Janathakshan - DMS</title>
+    <title>DocMonSys - Janathakshan</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -70,7 +70,7 @@
 
     
 
-    <!-- Custom Fonts -->
+    <!-- Custom Fonts awesome  -->
     <link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
      <!-- font awesome animation-->
     <link rel="stylesheet" href="css/font-awesome-animation.min.css"> 

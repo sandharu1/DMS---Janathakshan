@@ -46,7 +46,7 @@
         }
 		
 		if ( empty($PStatus)) {
-            $StatusError = 'Enter Project Status';
+            $PStatusError = 'Enter Project Status';
             $valid = false;
         }
          

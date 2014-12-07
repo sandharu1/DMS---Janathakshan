@@ -5,6 +5,8 @@
         header("Location: index.php");
         die("Redirecting to index.php"); 
     }
+
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,21 +130,26 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-indent fa-5x"></i>
+                                        <i class="fa fa-tasks fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">6</div>
-                                        <div>New Projects</div>
+                                   
+                                        <div class="huge">
+                                        					<?php
+
+															$sQuery = "SELECT * FROM projects WHERE PStatus = 'Ongoing'";
+
+															$rResult = $db->query($sQuery)->fetchAll();
+
+															echo count($rResult);
+
+															?>
+										</div>
+                                        <div>Ongoing</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                            
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
@@ -150,47 +157,55 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <i class="fa fa-tasks fa-5x"></i>
+                                        <i class="fa fa-indent fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">12</div>
-                                        <div>New Tasks!</div>
+                                        <div class="huge">
+															<?php
+
+															$sQuery = "SELECT * FROM projects WHERE PStatus = 'Rejected'";
+
+															$rResult = $db->query($sQuery)->fetchAll();
+
+															echo count($rResult);
+
+															?>
+                                        </div>
+                                        <div>Rejected</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                           
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
+                        <div class="panel panel-green">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <i class="fa fa-circle-o-notch fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
+                                        <div class="huge">
+															<?php
+
+															$sQuery = "SELECT * FROM projects WHERE PStatus = 'Completed'";
+
+															$rResult = $db->query($sQuery)->fetchAll();
+
+															echo count($rResult);
+
+															?>
+                                        </div>
                                         <div>Completed</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                           
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-red">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-3">
@@ -202,13 +217,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
-                                <div class="panel-footer">
-                                    <span class="pull-left">View Details</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
+                            
                         </div>
                     </div>
                 </div>
@@ -263,6 +272,8 @@
 
             </div>
             <!-- /.container-fluid -->
+
+            
 
         </div>
         <!-- /#page-wrapper -->

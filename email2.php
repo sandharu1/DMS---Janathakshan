@@ -1,4 +1,4 @@
-<!--E mail automatic sending system based duedates for DocMonSys by sandharu1 -->
+<!--E mail automatic sending system based duedates for DocMonSys-->
 
 <?php
 require("database.php");
@@ -25,8 +25,7 @@ while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 $to = "sandharu1@gmail.com, " . $email . " ";
 $subject = "DueDate Reminder - " . $pstage . " " ;
 $message = "Hi " .$title . " - ". $fullname .  
-"\n \nThe ". $pstage . " is going to due on " . $date_exp . "\n \n___More info___\nProject ID -  ". $pid . " \nContract ID -  ". $conid . " \nProgram ID -  ". $proid . "\n \nPlease contact manager or any responce person for future matters. 
-If you allready complete this stage, plz update info and skip this massege. \n \nThank you.. \n \n Regrds \nAutoAdmin\nDocMonSys - Janathakshan.\n\n *** This is an automatically generated email, please do not reply ***";
+"\n \nThe ". $pstage . " is going to due on " . $date_exp . "\n \n___More info___\n\nProject ID -  ". $pid . " \nContract ID -  ". $conid . " \nProgram ID -  ". $proid . "\n\nPlease contact Manager or any Responce person for future matters. If you allready complete this stage, plz update info and skip this massege. \n \nThank you.. \n \nRegards \nAutoAdmin\nDocMonSys - Janathakshan.\n\n\n *** This is an automatically generated email, please do not reply ***";
 $from = "auto-admin@janathakshan-dms.comuf.com";
 $headers = "From:" . $from;
 mail($to,$subject,$message,$headers);
@@ -38,7 +37,7 @@ echo "Mail Sent.";
 <html>
 <head>
 <meta charset="utf-8">
-<title>mail function</title>
+<title>mail function(Program Stages) - DocMonSys</title>
 </head>
 
 <body>

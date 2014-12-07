@@ -228,9 +228,11 @@ ul.alert-dropdown {
 .checkboxread{
 	font-family:Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
 	color:#0C0;
+	width:450px;
 	}
 	
 .tablecss{
 	color:#00F;
 	font-family:Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	
 	}
