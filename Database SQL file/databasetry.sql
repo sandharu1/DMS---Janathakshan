@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2014 at 07:41 PM
+-- Generation Time: Dec 08, 2014 at 02:45 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -151,16 +151,8 @@ CREATE TABLE IF NOT EXISTS `finstages` (
 --
 
 INSERT INTO `finstages` (`FinID`, `FStage`, `FSStatus`, `TraID`, `TraDate`, `TraDueDate`, `FSRemark`) VALUES
-('9899', 'finacialStageEmail', 'check email', 5634, '2014-12-03', '2014-12-02', 'ttttttttttttt'),
-('fin01', '01stage01', 'complete', 2341, '2014-11-13', '2014-11-14', 'finacila stage collect using fin id'),
-('fin01', '01stage02', 'complete', 2345, '2014-11-25', '2014-11-20', 'finacila stage collect using fin id'),
-('fin01', '01stage03', 'complete', 2389, '2014-10-05', '2014-10-20', 'finacila stage collect using fin id'),
-('fin01', '01stage04', 'complete', 2345, '2014-10-11', '2014-10-11', 'finacila stage collect using fin id'),
-('fin01', 'email check', 'wewe', 0, '0000-00-00', '2014-12-01', 'rerere'),
-('fin01', 'emailcheack', 'test email', 34344, '2014-12-05', '2014-12-02', 'rrrrrrrrrr'),
-('fin02', '01stage01', 'complete', 1345, '2014-10-11', '2014-10-11', 'finacila stage collect using fin id'),
-('fin02', 'stage02', 'waiting', 1868, '2014-10-30', '2014-11-15', 'finacila stage collect using fin id'),
-('fino1', 'emailchk', 'emailchk', 222, '2014-12-04', '2014-12-01', 'testemail');
+('fin01', 'Base fund request', 'still not having', 45789, '2014-12-11', '2014-12-15', 'plz complte this step'),
+('fin02', 'Annalysis', 'half complete', 75257, '2014-12-19', '2014-12-15', 'system request');
 
 -- --------------------------------------------------------
 
@@ -245,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `prostages` (
 --
 
 INSERT INTO `prostages` (`ProID`, `PStage`, `PSStatus`, `ProStartDate`, `ProEndDate`, `ProDueDate`, `PSRemark`) VALUES
-('pro02', 'stage 2 for the test', 'this is test stage', '2014-12-02', '2014-12-12', '2014-12-12', 'test for cheak system'),
+('pro02', 'Base system', 'remove set', '2014-12-02', '2014-12-20', '2014-12-15', 'plz complete base errors'),
 ('pro03', 'stage 3 for the test', 'this is test stage', '2014-12-03', '2014-12-13', '2014-12-13', 'test for cheak system'),
 ('pro01', 'stage one for the test', 'this is test stage', '2014-12-01', '2014-12-11', '2014-12-10', 'test for cheak system');
 
