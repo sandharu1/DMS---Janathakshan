@@ -24,7 +24,7 @@ while($row = $result->fetch(PDO::FETCH_ASSOC)) {
 $to = "sandharu1@gmail.com, " . $email . " ";
 $subject = "DueDate Reminder - " . $fstage . " " ;
 $message = "Hi " .$title . " - ". $fullname .  
-"\n \nThe ". $fstage . " is going to due on " . $date_exp . "\n \n___More info___\nProject ID -  ". $pid . " \nContract ID -  ". $conid . " \nfinancial ID -  ". $finid . "\n\nPlease contact manager or any responce person for future matters. If you allready complete this stage, plz update info and skip this massege. \n \nThank you.. \n \nRegrads \nAutoAdmin\nDocMonSys - Janathakshan. \n \n *** This is an automatically generated email, please do not reply ***";
+"\n \nThe ". $fstage . " is going to due on " . $date_exp . "\n \n___More info___\n\nProject ID -  ". $pid . " \nContract ID -  ". $conid . " \nfinancial ID -  ". $finid . "\n\nPlease contact manager or any responce person for future matters. If you allready complete this stage, plz update info and skip this massege. \n \nThank you.. \n \nRegrads \nAutoAdmin\nDocMonSys - Janathakshan. \n \n *** This is an automatically generated email, please do not reply ***";
 $from = "auto-admin@janathakshan-dms.comuf.com";
 $headers = "From:" . $from;
 mail($to,$subject,$message,$headers);

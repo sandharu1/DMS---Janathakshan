@@ -67,9 +67,9 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE financial  set FStage = ?, FSStatus = ?, TraID =?, TraDate =?, TraDueDate =?, FSRemak =? WHERE FinID = ?";
+            $sql = "UPDATE finstages set FStage = ?, FSStatus = ?, TraID = ?, TraDate = ?, TraDueDate = ?, FSRemark = ? WHERE FinID = ?";
             $q = $db->prepare($sql);
-            $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark));
+            $q->execute(array($FStage,$FSStatus,$TraID,$TraDate,$TraDueDate,$FSRemark,$FinID));
             
             header("Location: readFin.php");
         }

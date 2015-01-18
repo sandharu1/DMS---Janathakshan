@@ -16,8 +16,9 @@
     }
      
     if ( !empty($_POST)) {
+
         // keep track validation errors
-        $ProIDError = null;
+
         $PStageError = null;
         $PSStatusError = null;
         $ProStartDateError = null;
@@ -26,20 +27,18 @@
         $PSRemarkError = null;
          
         // keep track post values
-        $ProID = $_POST['ProID'];
+
         $PStage = $_POST['PStage'];
         $PSStatus = $_POST['PSStatus'];
         $ProStartDate = $_POST['ProStartDate'];
         $ProEndDate = $_POST['ProEndDate'];
         $ProDueDate = $_POST['ProDueDate'];
         $PSRemark = $_POST['PSRemark'];
+        
          
         // validate input
          $valid = true;
-        if (empty($ProID)) {
-            $ProIDError = 'Enter Program ID';
-            $valid = false;
-        }
+        
         if (empty($PStage)) {
             $PStageError = 'Enter Stage';
             $valid = false;
@@ -50,7 +49,7 @@
             $valid = false;
         }
         
-        if ( empty($ProStartDate)) {
+        if (empty($ProStartDate)) {
             $ProStartDateError = 'Enter Pro. Start Date';
             $valid = false;
         }
@@ -59,7 +58,8 @@
             $ProEndDateError = 'Enter Pro. End Date';
             $valid = false;
         }
-         if (empty($ProDueDate)) {
+
+        if (empty($ProDueDate)) {
             $ProDueDateError = 'Enter Programe Due Date';
             $valid = false;
         }
@@ -73,20 +73,19 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE prostages set ProID = ?, PStage = ?, PSStatus = ?, ProStartDate =?, ProEndDate =?, ProDueDate =?, PSRemak =? WHERE ProID = ?";
+            $sql = "UPDATE prostages set PStage = ?, PSStatus = ?, ProStartDate = ?, ProEndDate = ?, ProDueDate = ?, PSRemark = ? WHERE ProID = ?";
             $q = $db->prepare($sql);
-            $q->execute(array($ProID,$PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
+            $q->execute(array($PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark,$ProID));
             
             header("Location: readPro.php");
         }
     } else {
         
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM prostages where ProID = ?";
+        $sql = "SELECT * FROM prostages WHERE ProID = ?";
         $q = $db->prepare($sql);
         $q->execute(array($ProID));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-        $ProID = $data['ProID'];
         $PStage = $data['PStage'];
         $PSStatus = $data['PSStatus'];
         $ProStartDate = $data['ProStartDate'];
@@ -219,19 +218,11 @@
                 
              
                     <form class="form-horizontal" action="updateProgram.php?ProID=<?php echo $ProID?>" method="post">
-                      <div class="control-group <?php echo !empty($ProIDError)?'error':'';?>">
-                        <label class="control-label">Program ProID</label>
-                        <div class="controls">
-                            <input name="ProID" type="text"  placeholder="Program ProID" value="<?php echo !empty($ProID)?$ProID:'';?>">
-                            <?php if (!empty($ProIDError)): ?>
-                                <span class="help-inline"><?php echo $ProIDError;?></span>
-                            <?php endif; ?>
-                        </div>
-                      </div>
+                      
                       <div class="control-group <?php echo !empty($PStageError)?'error':'';?>">
                         <label class="control-label">Program Stage</label>
                         <div class="controls">
-                            <input name="FStage" type="text"  placeholder="Program Stage" value="<?php echo !empty($PStage)?$PStage:'';?>">
+                            <input name="PStage" type="text"  placeholder="Program Stage" value="<?php echo !empty($PStage)?$PStage:'';?>">
                             <?php if (!empty($PStageError)): ?>
                                 <span class="help-inline"><?php echo $PStageError;?></span>
                             <?php endif; ?>
@@ -240,7 +231,7 @@
                       <div class="control-group <?php echo !empty($PSStatusError)?'error':'';?>">
                         <label class="control-label">Stage Status</label>
                         <div class="controls">
-                            <input name="FSStatus" type="text" placeholder="Stage Status" value="<?php echo !empty($PSStatus)?$PSStatus:'';?>">
+                            <input name="PSStatus" type="text" placeholder="Stage Status" value="<?php echo !empty($PSStatus)?$PSStatus:'';?>">
                             <?php if (!empty($PSStatusError)): ?>
                                 <span class="help-inline"><?php echo $PSStatusError;?></span>
                             <?php endif;?>
@@ -249,7 +240,7 @@
                       <div class="control-group <?php echo !empty($ProStartError)?'error':'';?>">
                         <label class="control-label">Program Start Date</label>
                         <div class="controls">
-                            <input name="TraID" type="text"  placeholder="Program Start Date" value="<?php echo !empty($ProStartDate)?$ProStartDate:'';?>">
+                            <input name="ProStartDate" type="text"  placeholder="Program Start Date" value="<?php echo !empty($ProStartDate)?$ProStartDate:'';?>">
                             <?php if (!empty($ProStartDateError)): ?>
                                 <span class="help-inline"><?php echo $ProStartDateError;?></span>
                             <?php endif;?>
@@ -258,7 +249,7 @@
                       <div class="control-group <?php echo !empty($ProEndDateError)?'error':'';?>">
                         <label class="control-label">Program End Date</label>
                         <div class="controls">
-                            <input name="TraDate" type="text"  placeholder="rogram End Date" value="<?php echo !empty($ProEndDate)?$ProEndDate:'';?>">
+                            <input name="ProEndDate" type="text"  placeholder="rogram End Date" value="<?php echo !empty($ProEndDate)?$ProEndDate:'';?>">
                             <?php if (!empty($ProEndDateError)): ?>
                                 <span class="help-inline"><?php echo $ProEndDateError;?></span>
                             <?php endif;?>
@@ -267,7 +258,7 @@
                       <div class="control-group <?php echo !empty($ProDueDateError)?'error':'';?>">
                         <label class="control-label">Program Due Date</label>
                         <div class="controls">
-                            <input name="TraDueDate" type="text"  placeholder="Program Due date" value="<?php echo !empty($ProDueDate)?$ProDueDate:'';?>">
+                            <input name="ProDueDate" type="text"  placeholder="Program Due date" value="<?php echo !empty($ProDueDate)?$ProDueDate:'';?>">
                             <?php if (!empty($ProDueDateError)): ?>
                                 <span class="help-inline"><?php echo $ProDueDateError;?></span>
                             <?php endif;?>
@@ -285,7 +276,7 @@
                       
                       <div class="form-actions">
                           <button type="submit" class="btn btn-success">Update</button>
-                          <a class="btn" href="readPro.php">Back</a>
+                          <a class="btn" href="PinfoProgram.php">Back</a>
                         </div>
                     </form>
                 </div>

@@ -66,7 +66,7 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO ProStages (ProID,PStage,PSStatus,ProStartDate,ProEndDate,ProDueDate,PSRemark) values(?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO prostages (ProID,PStage,PSStatus,ProStartDate,ProEndDate,ProDueDate,PSRemark) values(?, ?, ?, ?, ?, ?, ?)";
             $q = $db->prepare($sql);
             $q->execute(array($ProID,$PStage,$PSStatus,$ProStartDate,$ProEndDate,$ProDueDate,$PSRemark));
             

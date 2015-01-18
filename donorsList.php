@@ -139,7 +139,7 @@
                    $sql = "SELECT * FROM donor ORDER BY DID DESC";
                    foreach($db->query($sql) as $row) { ?>
 
-                   <tr>
+                   <tr class="tablecss">
                         <td><?= $row['DID'];  ?></td>
                         <td><?= $row['DName'];  ?></td>
                         <td><?= $row['DEmail'];  ?></td>

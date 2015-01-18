@@ -212,7 +212,7 @@
                                         <i class="fa fa-file-text fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">13</div>
+                                        <div class="huge">3</div>
                                         <div>Noties</div>
                                     </div>
                                 </div>

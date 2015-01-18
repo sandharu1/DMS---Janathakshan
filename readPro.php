@@ -12,7 +12,7 @@
     }
      
     if ( null==$PID ) {
-        header("Location: PinfoFinacial.php");
+        header("Location: PinfoProgram.php");
     } else {
         
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -279,7 +279,7 @@
                   <tbody>
                   <?php
                    
-                   $sql = 'SELECT * FROM prostages ORDER BY ProID';
+                   $sql = "SELECT * FROM prostages ORDER BY ProID";
                    foreach ($db->query($sql) as $row) {
                             echo '<tr>';
                             echo '<td class="tablecss">'. $row['PStage'] . '</td>';

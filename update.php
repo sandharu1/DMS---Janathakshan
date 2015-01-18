@@ -18,7 +18,6 @@
      
     if ( !empty($_POST)) {
         // keep track validation errors
-        $PIDError = null;
         $DIDError = null;
         $PNameError = null;
         $PStatusError = null;
@@ -29,7 +28,6 @@
 		$PRemarkError = null;
          
         // keep track post values
-        $PID = $_POST['PID'];
         $DID = $_POST['DID'];
         $PName = $_POST['PName'];
         $PStatus = $_POST['PStatus'];
@@ -43,12 +41,7 @@
          
         // validate input
          $valid = true;
-        if (empty($PID)) {
-            $PIDError = 'Enter Project ID';
-            $valid = false;
-        }
-
-        if (empty($DID)) {
+       if (empty($DID)) {
             $DIDError = 'Enter Donor ID';
             $valid = false;
         }
@@ -69,16 +62,15 @@
         if (empty($ProposalDueDate)) {
             $ProposalDueDateError = 'Enter Proposal Due Date';
             $valid = false;
-        
-        }
-        if (empty($Response)) {
-            $ResponseError = 'Enter Project Responsor';
-            $valid = false;
-		 
         }
         if (empty($TotFinacial)) {
             $TotFinacialError = 'Enter P. Total Finacial Amount';
             $valid = false;
+        }
+        if (empty($Response)) {
+            $ResponseError = 'Enter Project Responsor';
+            $valid = false;
+         
         }
 		if (empty($PRemark)) {
             $PRemarkError = 'Enter Project Responsor';
@@ -89,9 +81,9 @@
         if ($valid) {
             
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "UPDATE projects  set PID = ?, DID = ?, PName = ?, PStatus =?, PDate =?, ProposalDueDate =?, TotFinacial =?, Response =?, PRemark =? WHERE PID = ?";
+            $sql = "UPDATE projects set DID = ?, PName = ?, PStatus = ?, PDate = ?, ProposalDueDate = ?, TotFinacial = ?, Response = ?, PRemark = ? WHERE PID = ?";
             $q = $db->prepare($sql);
-            $q->execute(array($PID,$DID,$PName,$PStatus,$PDate,$ProposalDueDate,$TotFinacial,$Response,$PRemark));
+            $q->execute(array($DID,$PName,$PStatus,$PDate,$ProposalDueDate,$TotFinacial,$Response,$PRemark,$PID));
             
             header("Location: projectInfo.php");
         }
@@ -102,15 +94,15 @@
         $q = $db->prepare($sql);
         $q->execute(array($PID));
         $data = $q->fetch(PDO::FETCH_ASSOC);
-        $PID = $data['PID'];
         $DID = $data['DID'];
         $PName = $data['PName'];
-        $Status = $data['PStatus'];
+        $PStatus = $data['PStatus'];
+        $PDate = $data['PDate'];
+        $ProposalDueDate = $data ['ProposalDueDate'];
+        $TotFinacial = $data['TotFinacial'];
 		$Response = $data['Response'];
-		$Remark = $data['PRemark'];
-		$TotFinacial = $data['TotFinacial'];
-		$PDate = $data['PDate'];
-        
+		$PRemark = $data['PRemark'];
+		
     }
 ?>
 <!DOCTYPE html>
@@ -235,15 +227,7 @@
                 
              
                     <form class="form-horizontal" action="update.php?PID=<?php echo $PID?>" method="post">
-                      <div class="control-group <?php echo !empty($PIDError)?'error':'';?>">
-                        <label class="control-label">Project ID</label>
-                        <div class="controls">
-                            <input name="PID" type="text"  placeholder="Project ID" value="<?php echo !empty($PID)?$PID:'';?>">
-                            <?php if (!empty($PIDError)): ?>
-                                <span class="help-inline"><?php echo $PIDError;?></span>
-                            <?php endif; ?>
-                        </div>
-                      </div>
+                      
                       <div class="control-group <?php echo !empty($DIDError)?'error':'';?>">
                         <label class="control-label">Donor ID</label>
                         <div class="controls">
